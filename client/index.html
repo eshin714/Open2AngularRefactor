@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>appName</title>
+  <!-- stylesheets -->
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="style/styles.css">
+  <!-- dependencies -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <!-- app -->
+  <script src="app/app.module.js"></script>
+  <script src="app/app.run.js"></script>
+  <!-- services -->
+  <script src="app/services/main.factory.js"></script>
+  <!-- views -->
+  <script src="app/main/main.module.js"></script>
+  <script src="app/main/main.controller.js"></script>
+  <script src="app/main/main.route.js"></script>
+
+</head>
+
+<body ng-app="appName">
+  <div ui-view></div>
+
+</body>
+</html>
