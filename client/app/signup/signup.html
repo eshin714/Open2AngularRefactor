@@ -1,0 +1,12 @@
+<div>Sign up Here!</div>
+
+<form>
+  Username: {{signup.username}}<br>
+  <input type='text' ng-model='signup.username' placeholder="username"><br>
+  Email: {{signup.email}}<br>
+  <input type='text' ng-model='signup.email' placeholder="email"><br>
+  Password: {{signup.password}}<br>
+  <input type='text' ng-model='signup.password' placeholder="password"><br>
+
+  <button ng-click='signup.submit(signup.username, signup.email, signup.password)'>submit</button>
+</form>

@@ -9,3 +9,4 @@ npm-debug.log*
 # Dependency directories
 node_modules/
 bower_components/
+dbconfig.js

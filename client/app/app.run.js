@@ -2,11 +2,11 @@
   'use strict';
 
   angular
-    .module('appName')
+    .module('open')
     .run(run);
 
   function run($state) {
-    $state.go('main');
+    $state.go('login');
   }
 })();
 

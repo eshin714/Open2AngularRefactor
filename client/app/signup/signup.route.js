@@ -2,17 +2,17 @@
   'use strict';
 
   angular
-    .module('appName.main')
+    .module('open.signup')
     .config(config);
 
   function config($stateProvider) {
     $stateProvider
-      .state('main', {
-        url: '/main',
+      .state('signup', {
+        url: '/signup',
         views: {
           '': {
-            templateUrl: 'app/main/main.html',
-            controller: 'MainController as main'
+            templateUrl: 'app/signup/signup.html',
+            controller: 'SignupController as signup'
           }
         }
       });

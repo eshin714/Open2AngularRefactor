@@ -2,11 +2,12 @@
   'use strict';
 
   angular
-    .module('appName', [
+    .module('open', [
       'ui.router',
-      'appName.main'
+      'open.login',
+      'open.signup',
     ]);
 })();
 
-//Cmd Shift F - replace all 'appName' to correct app name.
+//Cmd Shift F - replace all 'open' to correct app name.
 

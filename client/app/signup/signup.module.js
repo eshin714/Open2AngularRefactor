@@ -2,5 +2,5 @@
   'use strict';
 
   angular
-    .module('appName.main', []);
+    .module('open.signup', []);
 })();
