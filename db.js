@@ -2,7 +2,7 @@ var express = require('express');
 var mysql = require('mysql');
 var dbconfig = require('./dbconfig.js')
 
-var connection = mysql.createConnection(dbconfig);
+var connection = mysql.createConnection(dbconfig.sqlConfig);
 
   connection.connect(function(err){
     if(!err) {

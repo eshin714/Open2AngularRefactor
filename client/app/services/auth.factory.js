@@ -5,14 +5,19 @@
     .module('open')
     .factory('auth', auth);
 
-  function auth($http) {
+  function auth($http, $state) {
     var service = {
       signup: signup,
+      login: login
     };
     return service;
 
     function signup(userObj) {
-      $http.post('/auth',userObj)
+      return $http.post('/auth',userObj)
+    }
+
+    function login(userObj) {
+      return $http.post('/auth/login',userObj)
     }
   }
 })();

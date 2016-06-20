@@ -5,8 +5,9 @@
   <input type='text' ng-model='signup.username' placeholder="username"><br>
   Email: {{signup.email}}<br>
   <input type='text' ng-model='signup.email' placeholder="email"><br>
-  Password: {{signup.password}}<br>
-  <input type='text' ng-model='signup.password' placeholder="password"><br>
-
-  <button ng-click='signup.submit(signup.username, signup.email, signup.password)'>submit</button>
+  Password:<br>
+  <input type='password' ng-model='signup.password' placeholder="password"><br>
+  <input type='password' ng-model='signup.passwordConfirm' placeholder="password"><br>
+  {{signup.errors}}<br>
+  <button ng-click='signup.submit(signup.username, signup.email, signup.password, signup.passwordConfirm)'>submit</button>
 </form>
