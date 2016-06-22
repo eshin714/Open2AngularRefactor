@@ -7,7 +7,7 @@ var db = require('./db');
 
 // routes
 var tokens = require('./tokens')
-var main = require('./routes/main');
+var dashboard = require('./routes/dashboard');
 var auth = require('./routes/auth');
 
 app.use(express.static(__dirname + '/client'));
@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan('dev'));
 
-app.use('/main', main);
+app.use('/dashboard', dashboard);
 app.use('/auth', auth);
 
 var port = process.env.PORT || 8080;

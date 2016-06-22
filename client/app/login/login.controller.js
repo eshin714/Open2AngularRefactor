@@ -5,7 +5,7 @@
     .module('open.login')
     .controller('LoginController', LoginController);
 
-  function LoginController(auth) {
+  function LoginController(auth, $http, $state) {
 
     var vm = this;
 
@@ -18,9 +18,17 @@
 
       auth.login(userObj)
         .then(function(data) {
-          vm.alert = data.data;
+          if(data.success) {
+            $http.defaults.headers.common.username = data.username;
+            $http.defaults.headers.common.token = data.token;
+            vm.alert = data.message;
+            $state.go('dashboard')
+          } else {
+            vm.alert = data.message;
+          }
         })
+
     }
 
   }
-})()
+})();

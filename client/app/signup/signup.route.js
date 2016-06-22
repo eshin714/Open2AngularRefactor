@@ -14,6 +14,9 @@
             templateUrl: 'app/signup/signup.html',
             controller: 'SignupController as signup'
           }
+        },
+        data: {
+          requiredLogin: false
         }
       });
   }

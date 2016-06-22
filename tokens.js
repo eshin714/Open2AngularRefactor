@@ -6,20 +6,22 @@ var tokens = {};
 
 tokens.createToken = function(user) {
   return jwt.sign(user, dbconfig.secret, {
-     expiresIn: '1440m'
+     expiresIn: '1m'
   });
 };
 
-tokens.verify = function(token) {
-  return jwt.verify(token, dbconfig.secret, function(err, decoded) {
+tokens.verify = function(token, res) {
+  return jwt.verify(token, dbconfig.secret, function(err) {
     if(err) {
-      return res.json({
+      res.json({
         success: false,
         message: 'Failed to authenticate token.'
       });
     } else {
-      req.decoded = decoded;
-      next();
+      res.json({
+        success: true,
+        message: 'User is authorized'
+      });
     }
   });
 }

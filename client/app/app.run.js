@@ -5,9 +5,14 @@
     .module('open')
     .run(run);
 
-  function run($state) {
-    $state.go('login');
+  function run($state, $http, auth, $rootScope, $localStorage) {
+    if (auth.current().token) {
+      $http.defaults.headers.common.username = auth.current().username;
+      $http.defaults.headers.common.token = auth.current().token;
+    }
+
+    $rootScope.$on('$stateChangeStart', function(event, toState) {
+      auth.tokenCheck();
+    })
   }
 })();
-
-//The first thing our app does. It will run this and head to the 'main page'

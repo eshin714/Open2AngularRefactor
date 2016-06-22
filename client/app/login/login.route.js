@@ -14,7 +14,10 @@
             templateUrl: 'app/login/login.html',
             controller: 'LoginController as login'
           }
+        },
+        data: {
+          requiredLogin: false
         }
       });
   }
-})()
+})();

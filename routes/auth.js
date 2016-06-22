@@ -4,6 +4,11 @@ var router = express.Router();
 var db = require('../db.js');
 var tokens = require('../tokens.js')
 
+router.get('/', function(req, res) {
+  console.log(req.headers)
+  tokens.verify(req.headers.token, res)
+})
+
 router.post('/', function(req, res) {
   var userObj = req.body;
   var encPassword = bcrypt.hashSync(userObj.password, bcrypt.genSaltSync(10));
@@ -34,18 +39,20 @@ router.post('/login', function(req, res) {
   var userObj = req.body;
 
   db.query('SELECT * FROM Users WHERE name = ?', [userObj.username], function(err, results, fields) {
-      var user = results[0]
+      var user = results[0];
 
       if(bcrypt.compareSync(userObj.password, user["password"])) {
         console.log("Logging in now!")
         res.json({
+          success: true,
           message: "Success! Logging in now.",
-          username: user["user"],
+          username: user["name"],
           token: tokens.createToken({user: userObj.username})
         })
       } else {
         console.log("Password Incorrect!");
         res.json({
+          success: true,
           message: "Fail. Password Incorrect!"
         });
       }
