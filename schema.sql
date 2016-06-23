@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS `Users` (
+  `id` INTEGER NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(100) NULL DEFAULT NULL,
+  `password` VARCHAR(100) NULL DEFAULT NULL,
+  `email` VARCHAR(100) NULL DEFAULT NULL,
+  PRIMARY KEY(`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `Friends` (
+  `id` INTEGER NOT NULL AUTO_INCREMENT,
+  `user_id` INTEGER NOT NULL,
+  `friend_id` INTEGER NOT NULL,
+  PRIMARY KEY(`id`),
+  FOREIGN KEY(`user_id`) REFERENCES Users(`id`),
+  FOREIGN KEY(`user_id`) REFERENCES Users(`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `Events` (
+  `id` INTEGER NOT NULL AUTO_INCREMENT,
+  `event_name` VARCHAR(100) NULL DEFAULT NULL,
+  `user_id` INTEGER NOT NULL,
+  `friend_id` INTEGER NOT NULL,
+  `data_entered` TIMESTAMP,
+  PRIMARY KEY(`id`),
+  FOREIGN KEY(`user_id`) REFERENCES Users(`id`),
+  FOREIGN KEY(`friend_id`) REFERENCES Users(`id`)
+);

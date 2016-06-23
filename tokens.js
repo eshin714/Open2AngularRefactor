@@ -6,7 +6,7 @@ var tokens = {};
 
 tokens.createToken = function(user) {
   return jwt.sign(user, dbconfig.secret, {
-     expiresIn: '1m'
+     expiresIn: '1440m'
   });
 };
 

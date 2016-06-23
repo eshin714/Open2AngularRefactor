@@ -30,8 +30,8 @@
 
     function current() {
       return {
-        username: $localStorage.username,
-        token: $localStorage.token
+        username: $localStorage.userdata.username,
+        token: $localStorage.userdata.token
       };
     }
 
@@ -42,10 +42,11 @@
     function login(userObj) {
       return $http.post('/auth/login',userObj)
         .then(function(data) {
-          var dataObj = data.data;
-          $localStorage.username = dataObj.username;
-          $localStorage.token = dataObj.token;
-          return dataObj;
+          var dataObj = data.data.userdata;
+          $localStorage.userdata = dataObj;
+          $http.defaults.headers.common.username = dataObj.username;
+          $http.defaults.headers.common.token = dataObj.token;
+          return data.data;
         })
     }
   }

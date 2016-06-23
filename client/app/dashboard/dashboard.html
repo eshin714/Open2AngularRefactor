@@ -1,4 +1,31 @@
-<h1>Hi this is the dashboard!</h1>
+<h1 ng-init = "dashboard.populateFriendsEvents()">Hi this is the dashboard!</h1>
+
+<div>
+  Menu bar
+</div>
 
 
-{{dashboard.data}}
+<button>
+  This button will alert event.
+</button>
+<div>
+  This section will be friends list.
+</div>
+<div ng-repeat="friend in dashboard.friendsList">
+  {{friend.username}}
+</div>
+
+<div>
+This section will have alerts/notifications for events you have created.
+</div>
+<div ng-repeat="event in dashboard.eventsList">
+  {{event.event_name}}
+</div>
+
+<div>
+  This section will have all the alerts/notifications for any new event.
+</div>
+
+
+
+

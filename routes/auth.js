@@ -13,9 +13,9 @@ router.post('/', function(req, res) {
   var userObj = req.body;
   var encPassword = bcrypt.hashSync(userObj.password, bcrypt.genSaltSync(10));
 
-  db.query('SELECT 1 FROM Users WHERE name = ?', [userObj.username], function(err, results) {
+  db.query('SELECT 1 FROM Users WHERE username = ?', [userObj.username], function(err, results) {
     if(results.length === 0) {
-      db.query('insert into Users (name, password, email) values ("' + userObj.username + '", "' + encPassword +'", "' + userObj.email +'")',
+      db.query('insert into Users (username, password, email) values ("' + userObj.username + '", "' + encPassword +'", "' + userObj.email +'")',
         function (err, results, fields) {
           if (err) {
             throw err;
@@ -38,7 +38,7 @@ router.post('/', function(req, res) {
 router.post('/login', function(req, res) {
   var userObj = req.body;
 
-  db.query('SELECT * FROM Users WHERE name = ?', [userObj.username], function(err, results, fields) {
+  db.query('SELECT * FROM Users WHERE username = ?', [userObj.username], function(err, results, fields) {
       var user = results[0];
 
       if(bcrypt.compareSync(userObj.password, user["password"])) {
@@ -46,8 +46,11 @@ router.post('/login', function(req, res) {
         res.json({
           success: true,
           message: "Success! Logging in now.",
-          username: user["name"],
-          token: tokens.createToken({user: userObj.username})
+          userdata: {
+            username: user["username"],
+            id: user["id"],
+            token: tokens.createToken({user: userObj.username})
+          }
         })
       } else {
         console.log("Password Incorrect!");
@@ -58,5 +61,14 @@ router.post('/login', function(req, res) {
       }
   })
 });
+
+
+
+
+
+
+
+
+
 
 module.exports = router;

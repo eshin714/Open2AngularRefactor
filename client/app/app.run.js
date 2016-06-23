@@ -12,7 +12,11 @@
     }
 
     $rootScope.$on('$stateChangeStart', function(event, toState) {
-      auth.tokenCheck();
+      var requiredLogin = toState.data.requiredLogin;
+
+      if(requiredLogin) {
+        auth.tokenCheck();
+      }
     })
   }
 })();

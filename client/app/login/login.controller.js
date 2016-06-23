@@ -18,9 +18,8 @@
 
       auth.login(userObj)
         .then(function(data) {
+          console.log(data);
           if(data.success) {
-            $http.defaults.headers.common.username = data.username;
-            $http.defaults.headers.common.token = data.token;
             vm.alert = data.message;
             $state.go('dashboard')
           } else {
