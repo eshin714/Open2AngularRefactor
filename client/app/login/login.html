@@ -1,14 +1,32 @@
-<div>Login Here!</div>
+<md-dialog>
+   <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Login</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">X</md-button>
+      </div>
+    </md-toolbar>
 
 <form>
-  Username: {{login.username}}<br>
-  <input type='text' ng-model='login.username' placeholder="username"><br>
-  Password:<br>
-  <input type='password' ng-model='login.password' placeholder="password"><br>
 
-  <button ng-click='login.submit(login.username, login.password)'>submit</button>
-  <br>
+  <md-input-container>
+    <label>Username</label>
+    <input type='text' ng-model='login.username'>
+  </md-input-container>
+
+  <md-input-container>
+    <label>Password</label>
+    <input type='password' ng-model='login.password'>
+  </md-input-container>
+
   <div>
     {{login.alert}}
   </div>
+
+
+<md-dialog-actions layout="row">
+  <md-button ng-click='login.submit(login.username, login.password)'>Submit</md-button>
+</md-dialog-actions>
+
 </form>
+</md-dialog>

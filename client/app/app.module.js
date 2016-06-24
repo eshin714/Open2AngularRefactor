@@ -4,7 +4,9 @@
   angular
     .module('open', [
       'ui.router',
+      'ngMaterial',
       'ngStorage',
+      'open.landing',
       'open.login',
       'open.signup',
       'open.dashboard'

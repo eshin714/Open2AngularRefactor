@@ -1,0 +1,45 @@
+/** {
+   border: 1px solid red !important;
+   margin: 1px solid blue !important;
+      padding: 1px solid black !important;
+
+}*/
+
+h1 {
+  border: 2000px;
+  font-size: 15vw;
+  text-align: center;
+}
+
+.custom-text {
+  font-size: 5vw;
+}
+
+.custom-center {
+  width: 100%;
+  position: absolute;
+  align: center;
+  text-align: center;
+}
+
+.custom-button {
+  margin-left:auto;
+  margin-right:auto;
+  display:block;
+  margin-top:10%;
+ }
+
+.custom-modal {
+  width: 400px;
+  height: 400px;
+}
+
+.custom-form {
+
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.Center-Container {
+  position: relative;
+}

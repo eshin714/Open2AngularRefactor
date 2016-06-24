@@ -4,7 +4,7 @@ var db = require('../db.js');
 
 router.post('/', function(req, res) {
   var userId = req.body.id;
-  db.query('SELECT username, user_id, friend_id FROM Friends, Users WHERE user_id = ' + userId + '  AND Users.id = Friends.friend_id;SELECT Events.event_name, Events.user_id, Events.friend_id, Events.accept, Users.username FROM `Events`, Users WHERE Events.friend_id = Users.id AND Events.user_id = '+ userId +';', function(err, results) {
+  db.query('SELECT username, user_id, friend_id FROM Friends, Users WHERE user_id = ' + userId + '  AND Users.id = Friends.friend_id; SELECT Events.event_name, Events.user_id, Events.friend_id, Events.accept FROM `Events` WHERE Events.friend_id = ' + userId + ' OR Events.user_id = ' + userId + ';', function(err, results) {
     if(err) {
       console.log(err)
     } else {
