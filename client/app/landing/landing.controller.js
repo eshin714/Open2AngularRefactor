@@ -9,9 +9,10 @@
 
     var vm = this;
 
-    vm.openOffscreen = openOffscreen;
+    vm.openLogin = openLogin;
+    vm.openSignup = openSignup;
 
-    function openOffscreen(ev) {
+    function openLogin(ev) {
       $mdDialog.show({
          targetEvent: ev,
          templateUrl: 'app/login/login.html',
@@ -20,6 +21,14 @@
       });
     };
 
+    function openSignup(ev) {
+      $mdDialog.show({
+         targetEvent: ev,
+         templateUrl: 'app/signup/signup.html',
+         controller: 'SignupController as signup',
+         clickOutsideToClose:true
+      });
+    };
 
   }
 })();

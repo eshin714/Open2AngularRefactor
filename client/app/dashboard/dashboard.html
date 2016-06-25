@@ -1,31 +1,85 @@
-<h1 ng-init = "dashboard.populateFriendsEvents()">Hi this is the dashboard!</h1>
 
+
+
+<div ng-init="dashboard.populateFriendsEvents()">
+<!-- tool bar -->
 <div>
-  Menu bar
+      <md-toolbar class="md-hue-2">
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button">
+          <md-icon md-svg-icon="" ng-click="dashboard.openNav()">3</md-icon>
+        </md-button>
+        <h2>
+          <span>Dashboard</span>
+        </h2>
+        <span flex=""></span>
+        <md-button class="md-icon-button">
+          <md-icon>button2</md-icon>
+        </md-button>
+        <md-button class="md-icon-button">
+          <md-icon>button1</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
 </div>
+<!-- tool bar end -->
+<!-- sidenav -->
+<div layout="vertical" >
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2 custom-sidenav" md-component-id="left" md-is-locked-open="$mdMedia('gt-xs')" flex>
 
+      <md-toolbar class="md-theme-indigo">
+        <h1 class="md-toolbar-tools">Friends List</h1>
+      </md-toolbar>
+      <md-content>
 
-<button>
-  This button will alert event.
-</button>
+        <md-list>
+          <md-list-item class="md-3-line" ng-repeat="friend in dashboard.friendsList">
+            <img class="md-avatar">
+            <div class="md-list-item-text">
+              <h3>{{friend.username}}</h3>
+            </div>
+            <md-divider inset=""></md-divider>
+          </md-list-item>
+        </md-list>
+
+      </md-content>
+
+    </md-sidenav>
+</div>
+<!-- end of sidenav -->
 <div>
-  This section will be friends list.
-</div>
-<div ng-repeat="friend in dashboard.friendsList">
-  {{friend.username}}
+  <md-button> Create Event! </md-button>
 </div>
 
+<!-- start of events -->
+<md-content>
 <div>
-This section will have alerts/notifications for events you have created.
+  <md-grid-tile class="red" md-rowspan="2" md-colspan="2" md-colspan-sm="1" md-colspan-xs="1">
+    <md-toolbar class="md-theme-light">
+      <h2 class="md-toolbar-tools">
+        <span>Events</span>
+      </h2>
+    </md-toolbar>
+
+    <md-content>
+      <md-list>
+        <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventsList">
+          <div class="md-list-item-text">
+            <h3>{{event.event_name}}</h3>
+            <h4>Event Creator</h4>
+            <p>Who's coming</p>
+          </div>
+          <md-button class="md-secondary">Respond</md-button>
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+      </md-list>
+    </md-content>
+
+    <md-grid-tile-footer>
+      <h3>#5: (2r x 2c)</h3>
+    </md-grid-tile-footer>
+  </md-grid-tile>
 </div>
-<div ng-repeat="event in dashboard.eventsList">
-  {{event.event_name}}
+</md-content>
 </div>
-
-<div>
-  This section will have all the alerts/notifications for any new event.
-</div>
-
-
-
-
+<!-- end of events -->
