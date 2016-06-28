@@ -1,31 +1,7 @@
 <div ng-init="dashboard.populateFriendsEvents()">
-<!-- tool bar -->
-<div>
-      <md-toolbar class="md-hue-2">
-      <div class="md-toolbar-tools">
-        <md-button class="md-icon-button">
-          <md-icon md-svg-icon="" ng-click="dashboard.openNav()">3</md-icon>
-        </md-button>
-        <h2>
-          <span>Dashboard</span>
-        </h2>
-        <span flex=""></span>
-        <md-button class="md-icon-button">
-          <md-icon>button2</md-icon>
-        </md-button>
-        <md-button class="md-icon-button">
-          <md-icon>button1</md-icon>
-        </md-button>
-      </div>
-    </md-toolbar>
-</div>
-<!-- tool bar end -->
-<!-- sidenav -->
 
+<nav>
 
-<div  layout="vertical" layout-fill style="height:2000px">
-<md-content flex>
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-xs')" flex>
 
       <md-toolbar class="md-theme-indigo">
         <h1 class="md-toolbar-tools">Friends List</h1>
@@ -45,20 +21,32 @@
         </md-list>
 
 
+</nav>
+<section>
+        <md-toolbar class="md-hue-2">
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button">
+          <md-icon md-svg-icon="" ng-click="dashboard.openNav()">3</md-icon>
+        </md-button>
+        <h2>
+          <span>Dashboard</span>
+        </h2>
+        <span flex=""></span>
+        <md-button class="md-icon-button">
+          <md-icon>button2</md-icon>
+        </md-button>
+        <md-button class="md-icon-button">
+          <md-icon>button1</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
 
-    </md-sidenav>
-  </md-content>
-</div>
-<!-- end of sidenav -->
-<div>
+    <div>
   <md-button> Create Event! </md-button>
-  fdsafsd
 </div>
 
-<!-- start of events -->
-<md-content>
-<div>
-  <md-grid-tile class="red" md-rowspan="2" md-colspan="2" md-colspan-sm="1" md-colspan-xs="1">
+
+    <md-grid-tile class="red" md-rowspan="2" md-colspan="2" md-colspan-sm="1" md-colspan-xs="1">
     <md-toolbar class="md-theme-light">
       <h2 class="md-toolbar-tools">
         <span>Events</span>
@@ -83,7 +71,11 @@
       <h3>#5: (2r x 2c)</h3>
     </md-grid-tile-footer>
   </md-grid-tile>
+
+
+
+
+
+</section>
+
 </div>
-</md-content>
-</div>
-<!-- end of events -->

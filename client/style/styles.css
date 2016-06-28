@@ -44,3 +44,33 @@ h1 {
   position: relative;
 }
 
+.sideright {
+  background-color: black;
+  margin: 10px:
+  border-radius: 5px;
+  padding: 20px:
+  font-size: 105%;
+  float: left;
+  width:  260px;
+}
+
+@media only screen and (max-width: 50px) {
+    nav {
+        display: none;
+    }
+}
+
+nav {
+
+  position: absolute;
+  left: 0px;
+  width: 20%;
+  height: 100%;
+
+  margin-right: 3%;
+}
+
+section {
+  /* position is static by default */
+  margin-left: 20%;
+}
