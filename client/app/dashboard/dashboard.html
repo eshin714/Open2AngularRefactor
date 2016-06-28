@@ -22,40 +22,15 @@
 <!-- tool bar end -->
 <!-- sidenav -->
 
-    <div layout="row" ng-controller="menuCtrl" flex>
-        <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-lg')">
-            <md-toolbar class="md-medium-tall">
-                <span>Toolbar</span>
-            </md-toolbar>
-            <md-content layout="column" flex>
-                <span>Your sidenav</span>
-            </md-content>
 
-        </md-sidenav>
-        <div layout="column" flex md-theme="green" id="content">
-            <md-toolbar layout="row">
-                <div class="md-toolbar-tools">
-                    <!-- Add a toggleMenu function to your menuCtrl controller with the following in it
-                      $mdSidenav('left').toggle(); -->
-                    <i class="fa fa-bars pointer" ng-click="toggleMenu()" hide-gt-lg></i>
-                    <h1 flex>Your App</h1>
-                </div>
-
-            </md-toolbar>
-            <md-content ui-view layout="column" flex></md-content>
-        </div>
-    </div>
-
-
-
-
-<div layout="vertical" >
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2 custom-sidenav" md-component-id="left" md-is-locked-open="$mdMedia('gt-xs')" flex>
+<div  layout="vertical" layout-fill style="height:2000px">
+<md-content flex>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-xs')" flex>
 
       <md-toolbar class="md-theme-indigo">
         <h1 class="md-toolbar-tools">Friends List</h1>
       </md-toolbar>
-      <md-content>
+
 
         <md-list>
           <md-list-item class="md-3-line" ng-repeat="friend in dashboard.friendsList">
@@ -65,15 +40,19 @@
             </div>
             <md-divider inset=""></md-divider>
           </md-list-item>
+          <md-list-item layout-fill>
+          </md-list-item>
         </md-list>
 
-      </md-content>
+
 
     </md-sidenav>
+  </md-content>
 </div>
 <!-- end of sidenav -->
 <div>
   <md-button> Create Event! </md-button>
+  fdsafsd
 </div>
 
 <!-- start of events -->
