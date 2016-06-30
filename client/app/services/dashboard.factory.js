@@ -8,7 +8,8 @@
   function dashboard($http, $state, $localStorage) {
     var service = {
       getFriendsEvents: getFriendsEvents,
-      searchFriend: searchFriend
+      searchFriend: searchFriend,
+      requestFriend: requestFriend,
     };
     return service;
 
@@ -21,6 +22,13 @@
 
     function searchFriend(friendObj) {
       return $http.post('/dashboard/search', friendObj)
+        .then(function(data) {
+          return data.data;
+        })
+    }
+
+    function requestFriend(friendObj) {
+      return $http.post('/dashboard/request', friendObj)
         .then(function(data) {
           return data.data;
         })

@@ -13,9 +13,15 @@
   <md-button ng-click="dashboard.findFriend(dashboard.friendName)">
     submit
   </md-button>
-<div>hello {{dashboard.foundFriends}}</div>
-<div ng-repeat='friend in dashboard.foundFriends'>
-{{friend.username}}
-<div>
+
+    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.foundFriends">
+      <img class="md-avatar">
+      <div class="md-list-item-text">
+        <h3>{{friend.username}}</h3>
+      </div>
+      <md-button ng-click="dashboard.sendRequest(friend.id)">Add</md-button>
+      <md-divider inset=""></md-divider>
+    </md-list-item>
+
 
 </md-dialog>

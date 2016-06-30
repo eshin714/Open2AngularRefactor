@@ -34,6 +34,31 @@ router.post('/search', function(req, res) {
     })
 })
 
+router.post('/request', function(req, res) {
+  console.log('friend obj', req.body)
+  var friendObj = req.body;
+
+  db.query('SELECT * FROM Friends WHERE user_id = '+ friendObj.userId +' AND friend_id = ' + friendObj.friendId +';', function(err, results) {
+    if(results.length === 0) {
+      db.query('INSERT INTO Friends (`user_id`, `friend_id`) VALUES ('+friendObj.userId +','+friendObj.friendId+')',
+        function (err, results, fields) {
+          if (err) {
+            throw err;
+          } else {
+            console.log('success', results, fields);
+            res.json({
+              message: "Success! Created new user."
+            })
+          }
+      });
+    } else {
+      console.log("Friends Connection", results)
+      res.send({
+        message: "Fail. Username already exists."
+      });
+    }
+  });
+})
 //add friend
 
 

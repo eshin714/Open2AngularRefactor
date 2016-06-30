@@ -13,6 +13,7 @@
     vm.openNav = openNav;
     vm.findFriend = findFriend;
     vm.showSearch = showSearch;
+    vm.sendRequest = sendRequest;
 
     function populateFriendsEvents() {
       var userObj = {};
@@ -59,6 +60,18 @@
         fullscreen: useFullScreen
       })
     };
+
+    function sendRequest(friendId) {
+      var friendObj = {};
+      friendObj.friendId = friendId;
+      friendObj.userId = $localStorage.userdata.id;
+
+      dashboard.requestFriend(friendObj)
+        .then(function(data) {
+          console.log("data from friend request", data)
+        })
+
+    }
 
 
 
