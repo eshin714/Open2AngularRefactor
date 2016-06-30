@@ -37,6 +37,7 @@ router.post('/', function(req, res) {
 
 router.post('/login', function(req, res) {
   var userObj = req.body;
+  console.log(req.body)
 
   db.query('SELECT * FROM Users WHERE username = ?', [userObj.username], function(err, results, fields) {
       var user = results[0];

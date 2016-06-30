@@ -5,6 +5,7 @@
     .module('open', [
       'ui.router',
       'ngMaterial',
+      'ui.bootstrap',
       'ngStorage',
       'open.landing',
       'open.login',

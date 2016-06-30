@@ -1,5 +1,8 @@
 <div ng-init="dashboard.populateFriendsEvents()">
 
+
+
+
 <nav>
       <md-toolbar class="md-theme-indigo">
         <h1 class="md-toolbar-tools">Friends List</h1>
@@ -18,6 +21,12 @@
           </md-list-item>
         </md-list>
 
+<div class="dropdown">
+  <span>Mouse over me</span>
+  <div class="dropdown-content">
+    <p>Hello World!</p>
+  </div>
+</div>
 
 </nav>
 <section>
@@ -30,12 +39,25 @@
           <span>Dashboard</span>
         </h2>
         <span flex=""></span>
-        <md-button class="md-icon-button">
+
+          <md-input-container>
+            <input type='text' ng-model='dashboard.userFriend' placeholder="Search for Friends"><br>
+          </md-input-container>
+
+        <md-button class="md-primary md-raised demo-menu-open-button" ng-click="dashboard.findFriend(dashboard.userFriend)" class="dropbtn">
           <md-icon>button2</md-icon>
         </md-button>
-        <md-button class="md-icon-button">
-          <md-icon>button1</md-icon>
-        </md-button>
+
+
+
+    <md-button class="md-primary md-raised demo-menu-open-button"
+               ng-click="ctrl.showMenu($event)">
+      Select Menu
+    </md-button>
+
+
+
+
       </div>
     </md-toolbar>
 
@@ -43,8 +65,6 @@
   <md-button> Create Event! </md-button>
 </div>
 
-
-    <md-grid-tile class="red" md-rowspan="2" md-colspan="2" md-colspan-sm="1" md-colspan-xs="1">
     <md-toolbar class="md-theme-light">
       <h2 class="md-toolbar-tools">
         <span>Events</span>
@@ -68,7 +88,6 @@
     <md-grid-tile-footer>
       <h3>#5: (2r x 2c)</h3>
     </md-grid-tile-footer>
-  </md-grid-tile>
 
 
 

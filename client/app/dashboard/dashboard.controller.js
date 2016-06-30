@@ -11,6 +11,7 @@
 
     vm.populateFriendsEvents = populateFriendsEvents;
     vm.openNav = openNav;
+    vm.findFriend = findFriend;
     vm.leftNav = "left"
 
     function populateFriendsEvents() {
@@ -31,6 +32,17 @@
           .then(function(){
             console.log("sidenav opened")
           });
+    };
+
+    function findFriend(friend) {
+      var friendObj = {};
+      friendObj.username = friend;
+
+      dashboard.searchFriend(friendObj)
+        .then(function(data) {
+          console.log(data);
+
+        })
     }
 
 

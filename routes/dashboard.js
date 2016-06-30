@@ -4,17 +4,33 @@ var db = require('../db.js');
 
 router.post('/', function(req, res) {
   var userId = req.body.id;
-  db.query('SELECT username, user_id, friend_id FROM Friends, Users WHERE user_id = ' + userId + '  AND Users.id = Friends.friend_id; SELECT Events.event_name, Events.user_id, Events.friend_id, Events.accept FROM `Events` WHERE Events.friend_id = ' + userId + ' OR Events.user_id = ' + userId + ';', function(err, results) {
-    if(err) {
-      console.log(err)
-    } else {
-      console.log("success", results)
-      res.json({
-        success: true,
-        data: results
-      })
-    }
-  });
+  db.query('SELECT username, user_id, friend_id FROM Friends, Users WHERE user_id = ' + userId + '  AND Users.id = Friends.friend_id; SELECT Events.event_name, Events.user_id, Events.friend_id, Events.accept FROM `Events` WHERE Events.friend_id = ' + userId + ' OR Events.user_id = ' + userId + ';',
+    function(err, results) {
+      if(err) {
+        console.log(err)
+      } else {
+        console.log("success", results)
+        res.json({
+          success: true,
+          data: results
+        })
+      }
+    });
+})
+
+router.get('/search', function(req, res) {
+  var friendName = req.body.username;
+  db.query('SELECT 3 FROM Users WHERE username = ?', [userObj.username], function(err, results) {
+      if(err) {
+        console.log('no user found', err)
+      } else {
+        console.log('success', results)
+        res.json({
+          succes: true,
+          data: results
+        })
+      }
+    })
 })
 
 //add friend
