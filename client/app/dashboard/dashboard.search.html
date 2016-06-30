@@ -1,0 +1,21 @@
+<md-dialog>
+   <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Search</h2>
+      </div>
+    </md-toolbar>
+
+
+
+  <md-input-container>
+    <input type='text' ng-model='dashboard.friendName' placeholder="Search for Friend"><br>
+  </md-input-container>
+  <md-button ng-click="dashboard.findFriend(dashboard.friendName)">
+    submit
+  </md-button>
+<div>hello {{dashboard.foundFriends}}</div>
+<div ng-repeat='friend in dashboard.foundFriends'>
+{{friend.username}}
+<div>
+
+</md-dialog>

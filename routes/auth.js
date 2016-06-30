@@ -39,7 +39,7 @@ router.post('/login', function(req, res) {
   var userObj = req.body;
   console.log(req.body)
 
-  db.query('SELECT * FROM Users WHERE username = ?', [userObj.username], function(err, results, fields) {
+  db.query('SELECT username, email,  FROM Users WHERE username = ?', [userObj.username], function(err, results, fields) {
       var user = results[0];
 
       if(bcrypt.compareSync(userObj.password, user["password"])) {

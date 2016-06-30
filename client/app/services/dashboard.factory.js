@@ -20,7 +20,7 @@
     }
 
     function searchFriend(friendObj) {
-      return $http.get('/dashboard/search', friendObj)
+      return $http.post('/dashboard/search', friendObj)
         .then(function(data) {
           return data.data;
         })

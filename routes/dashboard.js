@@ -18,9 +18,10 @@ router.post('/', function(req, res) {
     });
 })
 
-router.get('/search', function(req, res) {
+router.post('/search', function(req, res) {
+  console.log('friend obj', req.body)
   var friendName = req.body.username;
-  db.query('SELECT 3 FROM Users WHERE username = ?', [userObj.username], function(err, results) {
+  db.query('SELECT * FROM Users WHERE username = ?', [friendName], function(err, results) {
       if(err) {
         console.log('no user found', err)
       } else {
