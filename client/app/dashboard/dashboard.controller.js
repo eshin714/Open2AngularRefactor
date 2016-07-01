@@ -14,6 +14,8 @@
     vm.findFriend = findFriend;
     vm.showSearch = showSearch;
     vm.sendRequest = sendRequest;
+    vm.openEventModal = openEventModal;
+    vm.addEvent = addEvent;
 
     function populateFriendsEvents() {
       var userObj = {};
@@ -22,6 +24,7 @@
       dashboard.getFriendsEvents(userObj)
         .then(function(data) {
           console.log("Friend data from dashboard",data)
+
           vm.friendsList = data.data[0];
           vm.eventsList = data.data[1];
         });
@@ -36,7 +39,6 @@
     };
 
     function findFriend(friend) {
-
       var friendObj = {};
       friendObj.username = friend;
       console.log("finding friend",friendObj)
@@ -46,19 +48,43 @@
           vm.foundFriends = data.data;
           console.log('found friends', vm.foundFriends)
         })
-    }
+    };
 
     function showSearch(ev) {
       var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
       $mdDialog.show({
         controller: DashboardController,
         controllerAs: 'dashboard',
-        templateUrl: 'app/dashboard/dashboard.search.html',
+        templateUrl: 'app/dashboard/modalviews/dashboard.search.html',
         parent: angular.element(document.body),
         targetEvent: ev,
         clickOutsideToClose:true,
         fullscreen: useFullScreen
       })
+    };
+
+    function openEventModal(ev) {
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+      $mdDialog.show({
+        controller: DashboardController,
+        controllerAs: 'dashboard',
+        templateUrl: 'app/dashboard/modalviews/dashboard.event.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        fullscreen: useFullScreen
+      })
+    };
+
+    function addEvent(event) {
+      var eventObj = {};
+      eventObj.eventName = event;
+      eventObj.userId = $localStorage.userdata.id;
+
+      dashboard.createEvent(eventObj)
+        .then(function(data) {
+          console.log("createdEvent Data", data);
+        })
     };
 
     function sendRequest(friendId) {
@@ -70,8 +96,7 @@
         .then(function(data) {
           console.log("data from friend request", data)
         })
-
-    }
+    };
 
 
 

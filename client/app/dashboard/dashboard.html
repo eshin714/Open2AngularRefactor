@@ -6,10 +6,19 @@
   </md-toolbar>
 
   <md-list>
-    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.friendsList">
+    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.friendsList  | filter: { accept: 1 }">
       <img class="md-avatar">
       <div class="md-list-item-text">
         <h3>{{friend.username}}</h3>
+      </div>
+      <md-divider inset=""></md-divider>
+    </md-list-item>
+    <div>Pending</div>
+    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.friendsList  | filter: { accept: 0 }">
+      <img class="md-avatar">
+      <div class="md-list-item-text">
+        <h3>{{friend.username}}</h3>
+        <button>add friend</button>
       </div>
       <md-divider inset=""></md-divider>
     </md-list-item>
@@ -41,7 +50,7 @@
   </div>
 
 <div>
-  <md-button> Create Event! </md-button>
+  <md-button ng-click="dashboard.openEventModal()"> Create Event! </md-button>
 </div>
 
     <md-toolbar class="md-theme-light">

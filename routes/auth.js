@@ -37,9 +37,10 @@ router.post('/', function(req, res) {
 
 router.post('/login', function(req, res) {
   var userObj = req.body;
-  console.log(req.body)
+  console.log(req.body.username)
 
-  db.query('SELECT username, email, id FROM Users WHERE username = ?', [userObj.username], function(err, results, fields) {
+  db.query('SELECT Users.username, Users.password, Users.id FROM Users WHERE Users.username =  "' + userObj.username + '"',
+    function(err, results, fields) {
       var user = results[0];
 
       if(bcrypt.compareSync(userObj.password, user["password"])) {
@@ -60,7 +61,7 @@ router.post('/login', function(req, res) {
           message: "Fail. Password Incorrect!"
         });
       }
-  })
+    })
 });
 
 

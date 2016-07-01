@@ -3,8 +3,9 @@ var router = express.Router();
 var db = require('../db.js');
 
 router.post('/', function(req, res) {
+  console.log(req.body)
   var userId = req.body.id;
-  db.query('SELECT username, user_id, friend_id FROM Friends, Users WHERE user_id = ' + userId + '  AND Users.id = Friends.friend_id; SELECT Events.event_name, Events.user_id, Events.friend_id, Events.accept FROM `Events` WHERE Events.friend_id = ' + userId + ' OR Events.user_id = ' + userId + ';',
+  db.query('SELECT username, user_id, friend_id, accept FROM Friends, Users WHERE user_id = ' + userId + '  AND Users.id = Friends.friend_id; SELECT Events.event_name, Events.user_id, Events.friend_id, Events.accept FROM `Events` WHERE Events.friend_id = ' + userId + ' OR Events.user_id = ' + userId + ';',
     function(err, results) {
       if(err) {
         console.log(err)
@@ -47,7 +48,7 @@ router.post('/request', function(req, res) {
           } else {
             console.log('success', results, fields);
             res.json({
-              message: "Success! Created new user."
+              message: "Friend Request Sent!"
             })
           }
       });
@@ -61,30 +62,45 @@ router.post('/request', function(req, res) {
 })
 //add friend
 
+router.post('/acceptFriend', function(req, res) {
+  var userObj = req.body;
+  db.query('UPDATE Friends SET Friends.accept = 1 WHERE Friends.user_id = '+ userObj.userId +' AND Friends.friend_id = '+ userObj.friendId+';',
+  function(err, results) {
+    if(err) {
+      console.log(err)
+    } else {
+      console.log("success", results)
+    }
+  });
+})
 
-  // db.query('SELECT Users.username, Users.id, Friends.friend_id, Events.event_name FROM Friends, Users, Events Where Users.id = 1 AND Users.id = Friends.friend_id AND Events.user_id = Users.id;', function(err, results) {
-  //   if(err) {
-  //     console.log(err)
-  //   } else {
-  //     console.log("success", results)
-  //   }
-  // });
 
 
 //add event
 
-  // db.query('INSERT INTO Events (`event_name`, `user_id`, `friend_id`) VALUES ("Party!",1,3)', function(err, results) {
-  //   if(err) {
-  //     console.log(err)
-  //   } else {
-  //     console.log("success")
-  //   }
-  // });
+// router.post('/acceptEvent', function(req, res) {
+//   var userObj = req.body;
+//   db.query('UPDATE `Events` SET Events.accept = 1 WHERE Events.user_id = '+ userObj.userId +' AND Friends.friend_id = '+ userObj.friendId+';',
+//   function(err, results) {
+//     if(err) {
+//       console.log(err)
+//     } else {
+//       console.log("success", results)
+//     }
+//   });
+// })
+
+
+//create events
+
+router.post('/createEvent', function(req, res) {
+  var eventObj = req.body;
 
 
 
-//populate events
 
+
+})
   // db.query('SELECT Events.event_name, Events.user_id, Events.friend_id, Events.accept, Users.username FROM `Events`, Users WHERE Events.friend_id = Users.id AND Events.user_id = 1;', function(err, results) {
   //   if(err) {
   //     console.log(err)
