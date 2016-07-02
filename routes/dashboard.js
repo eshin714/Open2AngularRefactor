@@ -5,7 +5,7 @@ var db = require('../db.js');
 router.post('/', function(req, res) {
   console.log(req.body)
   var userId = req.body.id;
-  db.query('SELECT username, user_id, friend_id, accept FROM Friends, Users WHERE user_id = ' + userId + '  AND Users.id = Friends.friend_id; SELECT Events.event_name, Events.user_id, Events.friend_id, Events.accept FROM `Events` WHERE Events.friend_id = ' + userId + ' OR Events.user_id = ' + userId + ';',
+  db.query('SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id= Users.id WHERE Friends.user_id = '+ userId +'; SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.User_id = Users.id WHERE Friends.friend_id = '+ userId +'; SELECT Events.event_name, Events.user_id, Events.friend_id, Events.accept FROM `Events` WHERE Events.friend_id = ' + userId + ' OR Events.user_id = ' + userId + ';',
     function(err, results) {
       if(err) {
         console.log(err)
@@ -64,12 +64,13 @@ router.post('/request', function(req, res) {
 
 router.post('/acceptFriend', function(req, res) {
   var userObj = req.body;
-  db.query('UPDATE Friends SET Friends.accept = 1 WHERE Friends.user_id = '+ userObj.userId +' AND Friends.friend_id = '+ userObj.friendId+';',
-  function(err, results) {
+  db.query('UPDATE Friends SET Friends.accept = 1 WHERE Friends.user_id = '+ userObj.friendId +' AND Friends.friend_id = '+ userObj.userId+';',
+  function(err, results, fields) {
     if(err) {
       console.log(err)
     } else {
       console.log("success", results)
+      console.log(fields)
     }
   });
 })
@@ -98,10 +99,14 @@ router.post('/createEvent', function(req, res) {
 
 
 
-
-
 })
-  // db.query('SELECT Events.event_name, Events.user_id, Events.friend_id, Events.accept, Users.username FROM `Events`, Users WHERE Events.friend_id = Users.id AND Events.user_id = 1;', function(err, results) {
+
+
+
+
+//query for Events created by user ID 1 with names of friends
+
+  //   db.query('SELECT Events.event_name, Users.username, Events.accept, Events.data_entered FROM `Events` INNER JOIN Users ON Events.friend_id = Users.id WHERE Events.user_id = 1', function(err, results) {
   //   if(err) {
   //     console.log(err)
   //   } else {
@@ -112,5 +117,27 @@ router.post('/createEvent', function(req, res) {
   //     // })
   //   }
   // });
+
+  //multiple query
+
+// var mysql = require('node-mysql');
+// var conn = mysql.createConnection({
+//     ...
+// });
+
+// var sql = "INSERT INTO Test (name, email, n) VALUES ?";
+// var values = [
+//     ['demian', 'demian@gmail.com', 1],
+//     ['john', 'john@gmail.com', 2],
+//     ['mark', 'mark@gmail.com', 3],
+//     ['pete', 'pete@gmail.com', 4]
+// ];
+// conn.query(sql, [values], function(err) {
+//     if (err) throw err;
+//     conn.end();
+// });
+
+
+
 
 module.exports = router;

@@ -4,7 +4,7 @@
   <md-toolbar class="md-theme-indigo">
     <h1 class="md-toolbar-tools">Friends List</h1>
   </md-toolbar>
-
+{{dashboard.friendsList}}
   <md-list>
     <md-list-item class="md-3-line" ng-repeat="friend in dashboard.friendsList  | filter: { accept: 1 }">
       <img class="md-avatar">
@@ -13,12 +13,22 @@
       </div>
       <md-divider inset=""></md-divider>
     </md-list-item>
-    <div>Pending</div>
-    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.friendsList  | filter: { accept: 0 }">
+    <div>Waiting for your response</div>
+
+    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.friendsList  | filter: { accept: 0, friend_id: dashboard.loggedUserId}">
       <img class="md-avatar">
       <div class="md-list-item-text">
         <h3>{{friend.username}}</h3>
-        <button>add friend</button>
+        <button ng-click="dashboard.addFriend(friend.user_id, dashboard.loggedUserId)">add friend</button>
+      </div>
+      <md-divider inset=""></md-divider>
+    </md-list-item>
+    <div>Waiting for their response</div>
+
+    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.friendsList  | filter: { accept: 0, user_id: dashboard.loggedUserId}">
+      <img class="md-avatar">
+      <div class="md-list-item-text">
+        <h3>{{friend.username}}</h3>
       </div>
       <md-divider inset=""></md-divider>
     </md-list-item>
