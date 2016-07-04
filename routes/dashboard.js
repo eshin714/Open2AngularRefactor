@@ -5,7 +5,7 @@ var db = require('../db.js');
 router.post('/', function(req, res) {
   console.log(req.body)
   var userId = req.body.id;
-  db.query('SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id= Users.id WHERE Friends.user_id = '+ userId +'; SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.User_id = Users.id WHERE Friends.friend_id = '+ userId +'; SELECT Events.event_name, Events.user_id, Events.friend_id, Events.accept FROM `Events` WHERE Events.friend_id = ' + userId + ' OR Events.user_id = ' + userId + ';',
+  db.query('SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id= Users.id WHERE Friends.user_id = '+ userId +'; SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.User_id = Users.id WHERE Friends.friend_id = '+ userId +'; SELECT Events.id, Events.event_name, Events.user_id, Events.friend_id, Events.accept FROM `Events` WHERE Events.friend_id = ' + userId + ' OR Events.user_id = ' + userId + ';',
     function(err, results) {
       if(err) {
         console.log(err)
@@ -79,17 +79,17 @@ router.post('/acceptFriend', function(req, res) {
 
 //add event
 
-// router.post('/acceptEvent', function(req, res) {
-//   var userObj = req.body;
-//   db.query('UPDATE `Events` SET Events.accept = 1 WHERE Events.user_id = '+ userObj.userId +' AND Friends.friend_id = '+ userObj.friendId+';',
-//   function(err, results) {
-//     if(err) {
-//       console.log(err)
-//     } else {
-//       console.log("success", results)
-//     }
-//   });
-// })
+router.post('/acceptEvent', function(req, res) {
+  var eventObj = req.body;
+  db.query('UPDATE `Events` SET Events.accept = 1 WHERE Events.id = '+ eventObj.eventId +' AND Events.friend_id = '+ eventObj.userId+';',
+  function(err, results) {
+    if(err) {
+      console.log(err)
+    } else {
+      console.log("success", results)
+    }
+  });
+})
 
 
 //create events

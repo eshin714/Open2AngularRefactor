@@ -18,6 +18,7 @@
     vm.openEventModal = openEventModal;
     vm.addEvent = addEvent;
     vm.addFriend = addFriend;
+    vm.attendEvent = attendEvent;
 
     function populateFriendsEvents() {
       var userObj = {};
@@ -77,11 +78,12 @@
       })
     };
 
-    function addEvent(event) {
+    function addEvent(event, friends) {
       var eventObj = {};
       eventObj.eventName = event;
       eventObj.userId = $localStorage.userdata.id;
-
+      eventObj.friendsObj = friends;
+      console.log("Event obj sent to add events",eventObj);
       dashboard.createEvent(eventObj)
         .then(function(data) {
           console.log("createdEvent Data", data);
@@ -110,7 +112,17 @@
         })
     }
 
+    function attendEvent(userId, eventId) {
+      var eventObj = {};
+      eventObj.userId = userId;
+      eventObj.eventId = eventId;
+      console.log("attending Event", eventObj)
+      dashboard.acceptEvent(eventObj)
+        .then(function(data) {
+          console.log("accepted Event", data)
+        })
 
+    }
 
 
 

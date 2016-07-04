@@ -11,7 +11,8 @@
       searchFriend: searchFriend,
       requestFriend: requestFriend,
       createEvent: createEvent,
-      acceptFriend: acceptFriend
+      acceptFriend: acceptFriend,
+      acceptEvent: acceptEvent
     };
     return service;
 
@@ -45,6 +46,13 @@
 
     function acceptFriend(friendObj) {
       return $http.post('/dashboard/acceptFriend', friendObj)
+        .then(function(data) {
+          return data.data;
+        });
+    };
+
+    function acceptEvent(eventObj) {
+      return $http.post('/dashboard/acceptEvent', eventObj)
         .then(function(data) {
           return data.data;
         });
