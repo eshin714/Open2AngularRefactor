@@ -5,7 +5,7 @@ var db = require('../db.js');
 router.post('/', function(req, res) {
   console.log(req.body)
   var userId = req.body.id;
-  db.query('SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id= Users.id WHERE Friends.user_id = '+ userId +'; SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.User_id = Users.id WHERE Friends.friend_id = '+ userId +'; SELECT Events.id, Events.event_name, Events.user_id, Events.friend_id, Events.accept FROM `Events` WHERE Events.friend_id = ' + userId + ' OR Events.user_id = ' + userId + ';',
+  db.query('SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id= Users.id WHERE Friends.user_id = '+ userId +'; SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.User_id = Users.id WHERE Friends.friend_id = '+ userId +'; SELECT Events.id, Events.event_name, Events.user_id, Events.friend_id, Events.accept, Events.event_id FROM `Events` WHERE Events.friend_id = ' + userId + ' OR Events.user_id = ' + userId + ';',
     function(err, results) {
       if(err) {
         console.log(err)
@@ -96,7 +96,43 @@ router.post('/acceptEvent', function(req, res) {
 
 router.post('/createEvent', function(req, res) {
   var eventObj = req.body;
+  var friends = eventObj.friendsObj;
+  var eventVals = [];
+  var lastEventId;
 
+  db.query('SELECT event_id FROM `Events` ORDER BY event_id DESC LIMIT 1;', function(err, results) {
+      if(err) {
+        console.log(err)
+      } else {
+        lastEventId = results[0].event_id
+        for(var i = 0; i < friends.length; i++) {
+          if(friends[i].user_id === eventObj.userId) {
+            eventVals.push([eventObj.eventName, eventObj.userId, friends[i].friend_id, lastEventId + 1])
+          } else {
+            eventVals.push([eventObj.eventName, eventObj.userId, friends[i].user_id, lastEventId + 1])
+          }
+        }
+    db.query('INSERT INTO `Events` (event_name, user_id, friend_id, event_id) VALUES ?',[eventVals],
+    function(err, results) {
+      if(err) {
+        console.log(err)
+      } else {
+        console.log("success", results)
+        // res.json({
+        //   success: true,
+        //   friendsObj: results
+        // })
+      }
+    });
+
+
+
+
+
+
+
+
+  }});
 
 
 })

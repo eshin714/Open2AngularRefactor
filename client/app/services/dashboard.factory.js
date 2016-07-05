@@ -38,7 +38,7 @@
     };
 
     function createEvent(eventObj) {
-      return $http.post('/dashboard/createEvent')
+      return $http.post('/dashboard/createEvent', eventObj)
         .then(function(data) {
           return data.data;
         });
