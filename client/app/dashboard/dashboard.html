@@ -6,7 +6,7 @@
   </md-toolbar>
 
   <md-list>
-    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.friendsList  | filter: { accept: 1 }">
+    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.trueFriend">
       <img class="md-avatar">
       <div class="md-list-item-text">
         <h3>{{friend.username}}</h3>
@@ -15,7 +15,7 @@
     </md-list-item>
     <div>Waiting for your response</div>
 
-    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.friendsList  | filter: { accept: 0, friend_id: dashboard.loggedUserId}">
+    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.falseFriend | filter: { friend_id: dashboard.loggedUserId}">
       <img class="md-avatar">
       <div class="md-list-item-text">
         <h3>{{friend.username}}</h3>
@@ -25,7 +25,7 @@
     </md-list-item>
     <div>Waiting for their response</div>
 
-    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.friendsList  | filter: { accept: 0, user_id: dashboard.loggedUserId}">
+    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.falseFriend | filter: { user_id: dashboard.loggedUserId}">
       <img class="md-avatar">
       <div class="md-list-item-text">
         <h3>{{friend.username}}</h3>

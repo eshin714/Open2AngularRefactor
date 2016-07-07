@@ -19,6 +19,8 @@
     vm.addEvent = addEvent;
     vm.addFriend = addFriend;
     vm.attendEvent = attendEvent;
+    vm.trueFriend = [];
+    vm.falseFriend = [];
 
     function populateFriendsEvents() {
       var userObj = {};
@@ -26,9 +28,17 @@
 
       dashboard.getFriendsEvents(userObj)
         .then(function(data) {
-          console.log("Friend data from dashboard",data)
-          vm.friendsList = data.data[0].concat(data.data[1]);
-          vm.eventsList = data.data[2];
+          console.log("Friend data from dashboard",data);
+          var friendsArr = data.data[0].concat(data.data[1]);
+          friendsArr.filter(function(obj) {
+            if(obj.accept === 1) {
+              vm.trueFriend.push(obj)
+            } else {
+              vm.falseFriend.push(obj)
+            }
+          });
+
+          // vm.eventsList = data.data[2];
         });
     };
 
@@ -82,7 +92,7 @@
       var eventObj = {};
       eventObj.eventName = event;
       eventObj.userId = $localStorage.userdata.id;
-      eventObj.friendsObj = friends;
+      eventObj.friendsObj = vm.trueFriend;
       console.log("Event obj sent to add events",eventObj);
       dashboard.createEvent(eventObj)
         .then(function(data) {
