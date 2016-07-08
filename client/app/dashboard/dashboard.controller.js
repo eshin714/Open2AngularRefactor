@@ -37,7 +37,26 @@
               vm.falseFriend.push(obj)
             }
           });
+          console.log('true',vm.trueFriend)
+          console.log('false',vm.falseFriend)
 
+          //events parser
+          events.forEach(function(value) {
+              var existing = eventOutput.filter(function(v, i) {
+                  return v.event_id === value.event_id;
+              });
+              if(existing.length) {
+                  var existingIndex = eventOutput.indexOf(existing[0]);
+                  eventOutput[existingIndex].username = eventOutput[existingIndex].username.concat(value.username);
+              }
+              else {
+                  if(typeof value.username == 'string')
+                      value.username = [value.username];
+                  eventOutput.push(value);
+              }
+          });
+          console.log(eventOutput)
+          vm.eventList = eventOutput;
           // vm.eventsList = data.data[2];
         });
     };

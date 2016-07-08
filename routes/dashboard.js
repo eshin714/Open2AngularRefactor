@@ -5,7 +5,7 @@ var db = require('../db.js');
 router.post('/', function(req, res) {
   console.log(req.body)
   var userId = req.body.id;
-  db.query('SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id = Users.id WHERE Friends.user_id = '+ userId +';                                         SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.User_id = Users.id WHERE Friends.friend_id = '+ userId +'; SELECT Events.event',
+  db.query('SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id = Users.id WHERE Friends.user_id = '+ userId +';                                         SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.User_id = Users.id WHERE Friends.friend_id = '+ userId +';',
     function(err, results) {
       if(err) {
         console.log(err)
