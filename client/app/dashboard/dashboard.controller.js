@@ -39,7 +39,8 @@
           });
           console.log('true',vm.trueFriend)
           console.log('false',vm.falseFriend)
-
+          var events = data.data[2];
+          var eventOutput = [];
           //events parser
           events.forEach(function(value) {
               var existing = eventOutput.filter(function(v, i) {
@@ -47,11 +48,19 @@
               });
               if(existing.length) {
                   var existingIndex = eventOutput.indexOf(existing[0]);
-                  eventOutput[existingIndex].username = eventOutput[existingIndex].username.concat(value.username);
+                  eventOutput[existingIndex].username = eventOutput[existingIndex].username.concat({
+                      username: value.username,
+                      userId: value.user_id,
+                      accept: value.accept
+                    });
               }
               else {
                   if(typeof value.username == 'string')
-                      value.username = [value.username];
+                      value.username = [{
+                        username: value.username,
+                        userId: value.user_id,
+                        accept: value.accept
+                      }];
                   eventOutput.push(value);
               }
           });

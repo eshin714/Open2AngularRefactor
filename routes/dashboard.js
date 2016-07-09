@@ -5,8 +5,8 @@ var db = require('../db.js');
 router.post('/', function(req, res) {
   console.log(req.body)
   var userId = req.body.id;
-  db.query('SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id = Users.id WHERE Friends.user_id = '+ userId +';                                         SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.User_id = Users.id WHERE Friends.friend_id = '+ userId +';',
-    function(err, results) {
+  db.query('SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id = Users.id WHERE Friends.user_id = '+ userId +';                                         SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.User_id = Users.id WHERE Friends.friend_id = '+ userId +'; SELECT EventUsers.event_id, Events.event_name, Events.event_creator, Events.date_created, EventUsers.accept, EventUsers.user_id, Users.username FROM Events INNER JOIN EventUsers ON Events.id = EventUsers.event_id INNER JOIN Users ON EventUsers.user_id = Users.id WHERE Events.id = ANY (SELECT EventUsers.event_id FROM EventUsers WHERE EventUsers.user_id = '+ userId +');',
+      function(err, results) {
       if(err) {
         console.log(err)
       } else {
@@ -129,14 +129,14 @@ router.post('/createEvent', function(req, res) {
           message: "Create Event Failed."
         })
       } else {
-        var values = [];
+        var values = [[results.insertId, eventObj.userId, 1]];
         var friendData = eventObj.friendsObj;
 
         for(var i = 0; i < friends.length;i++) {
           values.push([results.insertId, friendData[i].friend_id, 0])
         }
 
-        db.query('INSERT INTO `EventUsers` (`event_id`, `user_id`, `accept`) VALUES ?', [values],
+        db.query('INSERT INTO `EventUsers` (`event_id`, `user_id`, `accept`) VALUES ?;', [values],
           function(err, results) {
             if(err) {
               res.json({

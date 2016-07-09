@@ -93,30 +93,22 @@
     <md-content>
       <md-list>
         <div>Attending</div>
-        <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventsList | filter: { accept: 1 }">
+
+        <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventList">
           <div class="md-list-item-text">
             <h3>{{event.event_name}}</h3>
             <h4>Event Creator</h4>
-            <p>Who's coming</p>
+            <p ng-repeat="friends in event.username">{{friends.username}}</p>
           </div>
           <md-divider ng-if="!$last"></md-divider>
         </md-list-item>
         <div>Friend Created</div>
-        <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventsList | filter: { friend_id: dashboard.loggedUserId, accept: 0}">
+
+        <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventList| filter: { event_creator: dashboard.loggedUserId }">
           <div class="md-list-item-text">
             <h3>{{event.event_name}}</h3>
             <h4>Event Creator</h4>
-            <p>Who's coming</p>
-          </div>
-          <md-button class="md-secondary" ng-click="dashboard.attendEvent(dashboard.loggedUserId, event.id)">Respond</md-button>
-          <md-divider ng-if="!$last"></md-divider>
-        </md-list-item>
-        <div>User Created</div>
-        <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventsList | filter: { user_id: dashboard.loggedUserId }">
-          <div class="md-list-item-text">
-            <h3>{{event.event_name}}</h3>
-            <h4>Event Creator</h4>
-            <p>Who's coming</p>
+            <p ng-repeat="friends in event.username">{{friends.username}}</p>
           </div>
           <md-divider ng-if="!$last"></md-divider>
         </md-list-item>
