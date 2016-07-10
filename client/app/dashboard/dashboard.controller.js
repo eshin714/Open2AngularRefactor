@@ -22,50 +22,65 @@
     vm.trueFriend = [];
     vm.falseFriend = [];
 
+    function populateEvents(data) {
+      var events = data.data[2];
+      var eventOutput = [];
+      //events parser
+      events.forEach(function(value) {
+          var existing = eventOutput.filter(function(v, i) {
+              return v.event_id === value.event_id;
+          });
+          if(existing.length) {
+              var existingIndex = eventOutput.indexOf(existing[0]);
+              eventOutput[existingIndex].username = eventOutput[existingIndex].username.concat({
+                  username: value.username,
+                  userId: value.user_id,
+                  accept: value.accept
+                });
+          }
+          else {
+              if(typeof value.username == 'string')
+                  value.username = [{
+                    username: value.username,
+                    userId: value.user_id,
+                    accept: value.accept
+                  }];
+              eventOutput.push(value);
+          }
+      });
+      eventOutput.forEach(function(value){
+        if(value.event_creator === vm.loggedUserId){
+          value.event_creator_name = $localStorage.userdata.username;
+        } else {
+          value.username.forEach(function(userObj){
+            if(value.event_creator === userObj.userId) {
+              value.event_creator_name = userObj.username
+            }
+          })
+        }
+      })
+      vm.eventList = eventOutput;
+    }
+
+    function populateFriends(data) {
+      var friendsArr = data.data[0].concat(data.data[1]);
+      friendsArr.filter(function(obj) {
+        if(obj.accept === 1) {
+          vm.trueFriend.push(obj)
+        } else {
+          vm.falseFriend.push(obj)
+        }
+      });
+    }
+
     function populateFriendsEvents() {
       var userObj = {};
       userObj.id = $localStorage.userdata.id;
 
       dashboard.getFriendsEvents(userObj)
         .then(function(data) {
-          console.log("Friend data from dashboard",data);
-          var friendsArr = data.data[0].concat(data.data[1]);
-          friendsArr.filter(function(obj) {
-            if(obj.accept === 1) {
-              vm.trueFriend.push(obj)
-            } else {
-              vm.falseFriend.push(obj)
-            }
-          });
-          console.log('true',vm.trueFriend)
-          console.log('false',vm.falseFriend)
-          var events = data.data[2];
-          var eventOutput = [];
-          //events parser
-          events.forEach(function(value) {
-              var existing = eventOutput.filter(function(v, i) {
-                  return v.event_id === value.event_id;
-              });
-              if(existing.length) {
-                  var existingIndex = eventOutput.indexOf(existing[0]);
-                  eventOutput[existingIndex].username = eventOutput[existingIndex].username.concat({
-                      username: value.username,
-                      userId: value.user_id,
-                      accept: value.accept
-                    });
-              }
-              else {
-                  if(typeof value.username == 'string')
-                      value.username = [{
-                        username: value.username,
-                        userId: value.user_id,
-                        accept: value.accept
-                      }];
-                  eventOutput.push(value);
-              }
-          });
-          console.log(eventOutput)
-          vm.eventList = eventOutput;
+          populateEvents(data)
+          populateFriends(data)
           // vm.eventsList = data.data[2];
         });
     };
@@ -124,7 +139,7 @@
       console.log("Event obj sent to add events",eventObj);
       dashboard.createEvent(eventObj)
         .then(function(data) {
-          console.log("createdEvent Data", data);
+          console.log("added Event Data", data);
         })
     };
 
@@ -146,7 +161,7 @@
       console.log("add friend...", friendObj)
       dashboard.acceptFriend(friendObj)
         .then(function(data) {
-          console.log("Friend Accepted")
+          console.log("Friend Accepted",data)
         })
     }
 

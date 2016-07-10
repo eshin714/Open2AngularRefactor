@@ -40,7 +40,7 @@
 <section>
 
 
-  <div>
+  <toolbar>
     <md-toolbar class="md-hue-2">
       <div class="md-toolbar-tools">
         <md-button class="md-icon-button">
@@ -54,26 +54,22 @@
           ng-click="dashboard.showSearch($event)">
             Search
           </md-button>
-        <md-button class="md-icon-button">
-          <md-icon>button1</md-icon>
-        </md-button>
+          <md-button class="md-primary md-raised">
+            Log out
+          </md-button>
       </div>
     </md-toolbar>
-  </div>
+  </toolbar>
 
-<div>
+<div class="event-card">
 
-     <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>Add Event</h2>
-      </div>
-    </md-toolbar>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Add Event</h2>
+    </div>
+  </md-toolbar>
 
-<div>
-
-</div>
-
-  <md-input-container>
+  <md-input-container >
     <input type='text' ng-model='dashboard.eventName' placeholder="What's the plan?"><br>
   </md-input-container>
 
@@ -81,49 +77,34 @@
     submit
   </md-button>
 
-  <md-button ng-click="dashboard.openEventModal()"> Create Event! </md-button>
-</div>
+  <md-button ng-click="dashboard.openEventModal()">
+    Create Event!
+  </md-button>
 
-    <md-toolbar class="md-theme-light">
-      <h2 class="md-toolbar-tools">
-        <span>Events</span>
-      </h2>
-    </md-toolbar>
+</div >
 
-    <md-content>
-      <md-list>
-        <div>Attending</div>
+<div class="col-md-12">
+  <md-toolbar class="md-theme-light">
+    <h2 class="md-toolbar-tools">
+      <span>Events</span>
+    </h2>
+  </md-toolbar>
 
-        <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventList">
+  <md-content>
+    <md-list>
+      <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventList">
           <div class="md-list-item-text">
             <h3>{{event.event_name}}</h3>
-            <h4>Event Creator</h4>
-            <p ng-repeat="friends in event.username">{{friends.username}}</p>
+            <h4>Event Creator: {{event.event_creator_name}}</h4>
+            <span ng-repeat="friends in event.username">
+              {{friends.username}}
+            </span>
           </div>
-          <md-divider ng-if="!$last"></md-divider>
-        </md-list-item>
-        <div>Friend Created</div>
-
-        <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventList| filter: { event_creator: dashboard.loggedUserId }">
-          <div class="md-list-item-text">
-            <h3>{{event.event_name}}</h3>
-            <h4>Event Creator</h4>
-            <p ng-repeat="friends in event.username">{{friends.username}}</p>
-          </div>
-          <md-divider ng-if="!$last"></md-divider>
-        </md-list-item>
-
-      </md-list>
-    </md-content>
-
-    <md-grid-tile-footer>
-      <h3>footer boi</h3>
-    </md-grid-tile-footer>
-
-
-
-
+        <md-divider ng-if="!$last"></md-divider>
+      </md-list-item>
+    </md-list>
+  </md-content>
+</div >
 
 </section>
-
 </div>

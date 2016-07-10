@@ -133,10 +133,14 @@ router.post('/createEvent', function(req, res) {
         var friendData = eventObj.friendsObj;
 
         for(var i = 0; i < friends.length;i++) {
-          values.push([results.insertId, friendData[i].friend_id, 0])
+          if(friendData[i].friend_id !== eventObj.userId) {
+            values.push([results.insertId, friendData[i].friend_id, 0])
+          } else {
+            values.push([results.insertId, friendData[i].user_id, 0])
+          }
         }
 
-        db.query('INSERT INTO `EventUsers` (`event_id`, `user_id`, `accept`) VALUES ?;', [values],
+        db.query('INSERT INTO `EventUsers` (`event_id`, `user_id`, `accept`)  VALUES ?;', [values],
           function(err, results) {
             if(err) {
               res.json({
