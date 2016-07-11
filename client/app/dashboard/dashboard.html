@@ -23,7 +23,7 @@
       </div>
       <md-divider inset=""></md-divider>
     </md-list-item>
-    <div>Waiting for their response</div>
+    <div>Pending Responses</div>
 
     <md-list-item class="md-3-line" ng-repeat="friend in dashboard.falseFriend | filter: { user_id: dashboard.loggedUserId}">
       <img class="md-avatar">
@@ -47,12 +47,12 @@
           <md-icon md-svg-icon="" ng-click="dashboard.openNav()">3</md-icon>
         </md-button>
         <h2>
-          <span>Dashboard</span>
+          <span>Welcome to Cliq!</span>
         </h2>
         <span flex=""></span>
           <md-button class="md-primary md-raised"
           ng-click="dashboard.showSearch($event)">
-            Search
+            Search For Friends
           </md-button>
           <md-button class="md-primary md-raised">
             Log out
@@ -61,29 +61,27 @@
     </md-toolbar>
   </toolbar>
 
-<div class="event-card">
-
+<div class="col-md-12">
+<div class="card">
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <h2>Add Event</h2>
+      <h3>Add Event</h3>
     </div>
   </md-toolbar>
 
-  <md-input-container >
-    <input type='text' ng-model='dashboard.eventName' placeholder="What's the plan?"><br>
+  <md-input-container class="col-md-12">
+  <span>
+    <input type='text' ng-model='dashboard.eventName' placeholder="What Do YOU want to do?"></input>
+    <md-button class="md-primary md-raised"ng-click="dashboard.addEvent(dashboard.eventName, dashboard.friendsList)">
+    send to friends
+    </md-button>
+  </span>
   </md-input-container>
 
-  <md-button ng-click="dashboard.addEvent(dashboard.eventName, dashboard.friendsList)">
-    submit
-  </md-button>
-
-  <md-button ng-click="dashboard.openEventModal()">
-    Create Event!
-  </md-button>
-
+</div>
 </div >
 
-<div class="col-md-12">
+<div class="col-md-12 event-card">
   <md-toolbar class="md-theme-light">
     <h2 class="md-toolbar-tools">
       <span>Events</span>

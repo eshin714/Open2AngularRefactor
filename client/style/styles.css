@@ -89,11 +89,7 @@ section {
 .event-card {
   background-color: blue;
   border: 3%;
-  border-radius: 16px 16px 16px 16px;
--moz-border-radius: 16px 16px 16px 16px;
--webkit-border-radius: 16px 16px 16px 16px;
-border: 6px solid #000000;
-  margin: 3%;
+
 }
 
 @media only screen and (max-width: 500px) {
