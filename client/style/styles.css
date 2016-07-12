@@ -4,6 +4,19 @@
       padding: 1px solid black !important;
 
 }*/
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+* {
+
+ font-family: Raleway;
+}
+
+
+#wrap {
+  width: 900px;
+  margin: 0 auto;
+}
 .dropdown {
     position: relative;
     display: inline-block;
@@ -24,23 +37,34 @@
     display: block;
 }
 h1 {
+  font-family: Lobster;
   border: 2000px;
   font-size: 15vw;
   text-align: center;
 }
-
+h2 {
+  font-family: Lobster;
+}
+h3 {
+  font-family: Lobster;
+}
+h4 {
+  font-family: Lobster;
+}
 .custom-text {
+  font-family: Raleway;
   font-size: 5vw;
 }
 
 .custom-center {
-  width: 100%;
-  position: absolute;
+  width: 900px;
+/*  position: absolute;*/
   align: center;
   text-align: center;
 }
 
 .custom-button {
+
   margin-left:auto;
   margin-right:auto;
   display:block;
@@ -71,7 +95,7 @@ h1 {
   float: left;
   width:  260px;
 }
-nav {
+.sidenav {
   position: absolute;
   left: 0px;
   width: 20%;
