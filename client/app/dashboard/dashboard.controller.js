@@ -11,17 +11,17 @@
 
     vm.loggedUserId = $localStorage.userdata.id;
     vm.populateFriendsEvents = populateFriendsEvents;
-    vm.openNav = openNav;
+
     vm.findFriend = findFriend;
     vm.showSearch = showSearch;
     vm.sendRequest = sendRequest;
-    vm.openEventModal = openEventModal;
     vm.addEvent = addEvent;
     vm.addFriend = addFriend;
     vm.attendEvent = attendEvent;
     vm.trueFriend = [];
     vm.falseFriend = [];
-    vm.filterCreator = filterCreator;
+    vm.enterChat = enterChat;
+    vm.sendMsg = sendMsg;
 
     function populateEvents(data) {
       var events = data.data[2];
@@ -61,6 +61,7 @@
         }
       })
       vm.eventList = eventOutput;
+
     }
 
     function populateFriends(data) {
@@ -76,7 +77,7 @@
 
     function populateFriendsEvents() {
       var userObj = {};
-      userObj.id = $localStorage.userdata.id;
+      userObj.id = vm.loggedUserId;
 
       dashboard.getFriendsEvents(userObj)
         .then(function(data) {
@@ -84,26 +85,6 @@
           populateFriends(data)
           // vm.eventsList = data.data[2];
         });
-    };
-
-    function openNav() {
-      $mdSidenav('left')
-        .toggle()
-          .then(function(){
-            console.log("sidenav opened")
-          });
-    };
-
-    function findFriend(friend) {
-      var friendObj = {};
-      friendObj.username = friend;
-      console.log("finding friend",friendObj)
-      dashboard.searchFriend(friendObj)
-        .then(function(data) {
-          console.log(data);
-          vm.foundFriends = data.data;
-          console.log('found friends', vm.foundFriends)
-        })
     };
 
     function showSearch(ev) {
@@ -119,35 +100,22 @@
       })
     };
 
-    function openEventModal(ev) {
-      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
-      $mdDialog.show({
-        controller: DashboardController,
-        controllerAs: 'dashboard',
-        templateUrl: 'app/dashboard/modalviews/dashboard.event.html',
-        parent: angular.element(document.body),
-        targetEvent: ev,
-        clickOutsideToClose:true,
-        fullscreen: useFullScreen
-      })
-    };
-
-    function addEvent(event, friends) {
-      var eventObj = {};
-      eventObj.eventName = event;
-      eventObj.userId = $localStorage.userdata.id;
-      eventObj.friendsObj = vm.trueFriend;
-      console.log("Event obj sent to add events",eventObj);
-      dashboard.createEvent(eventObj)
+    function findFriend(friend) {
+      var friendObj = {};
+      friendObj.username = friend;
+      console.log("finding friend",friendObj)
+      dashboard.searchFriend(friendObj)
         .then(function(data) {
-          console.log("added Event Data", data);
+          console.log(data);
+          vm.foundFriends = data.data;
+          console.log('found friends', vm.foundFriends)
         })
     };
 
     function sendRequest(friendId) {
       var friendObj = {};
       friendObj.friendId = friendId;
-      friendObj.userId = $localStorage.userdata.id;
+      friendObj.userId = vm.loggedUserId;
 
       dashboard.requestFriend(friendObj)
         .then(function(data) {
@@ -164,7 +132,19 @@
         .then(function(data) {
           console.log("Friend Accepted",data)
         })
-    }
+    };
+
+    function addEvent(event, friends) {
+      var eventObj = {};
+      eventObj.eventName = event;
+      eventObj.userId = vm.loggedUserId;
+      eventObj.friendsObj = vm.trueFriend;
+      console.log("Event obj sent to add events",eventObj);
+      dashboard.createEvent(eventObj)
+        .then(function(data) {
+          console.log("added Event Data", data);
+        })
+    };
 
     function attendEvent(userId, eventId) {
       var eventObj = {};
@@ -175,28 +155,33 @@
         .then(function(data) {
           console.log("accepted Event", data)
         })
+    };
 
-    }
+    function enterChat(eventId, eventName) {
+      var eventObj = {};
+      eventObj.eventId = eventId;
+      eventObj.userId = vm.loggedUserId;
+      chat.openChat(eventObj)
+        .then(function(data) {
+          console.log("chat data.", data)
+          vm.currentEventId = eventId;
+          vm.chatName = eventName;
+          vm.msgList = data.data;
 
-    function filterCreator(event, friendObj) {
-      console.log("this is event creator",event.event_creator);
+        })
+    };
 
-      for(var i = 0; i < friendObj.length; i++) {
-        console.log("this is friend Obj", friendObj[i].userId);
+    function sendMsg(msg) {
+      var msgObj = {};
+      msgObj.eventId = vm.currentEventId;
+      msgObj.userId = vm.loggedUserId;
+      msgObj.text = msg;
 
-        if(event.event_creator === friendObj[i].userId && friendObj[i].accept == 1) {
-          vm.showName = false;
-          vm.addButton = false;
-        }  else if (event.event_creator !== friendObj[i].userId && friendObj[i].accept == 0) {
-          vm.showName = true;
-          vm.addButton = true;
-        }  else if (event.event_creator !== friendObj[i].userId && friendObj[i].accept == 1) {
-          vm.showName = true;
-          vm.addButton = false;
-        }
-
-      }
-    }
+      chat.addMsg(msgObj)
+        .then(function(data) {
+          vm.msgList.push(data.data[0])
+        })
+    };
 
 
   }

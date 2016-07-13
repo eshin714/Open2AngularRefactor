@@ -82,7 +82,7 @@
 </div>
 </section>
 <section>
-<div class="col-md-12 event-card ">
+<div class="col-md-6 event-card ">
   <md-toolbar class="md-theme-light w3-card-4">
     <h2 class="md-toolbar-tools">
       <span>Events</span>
@@ -93,12 +93,22 @@
     <md-list>
       <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventList">
           <div class="md-list-item-text">
+
             <h3>{{event.event_name}}</h3>
             <h4>Event Creator: {{event.event_creator_name}}</h4>
-            <span ng-repeat="friends in event.username | filter: {userId: '!'+dashboard.loggedUserId, accept: 0}">
-            {{friends}}
-            <button>GO to event!</button>
-              <div ng-show="dashboard.showName">{{friends.username}}</div>
+            <span ng-repeat="friends in event.username">
+            <div ng-if="event.event_creator !== dashboard.loggedUserId && dashboard.loggedUserId === friends.userId">
+                  {{friends.username}}
+            <md-button  class="md-primary md-raised" ng-hide="friends.accept" ng-click="dashboard.attendEvent(friends.userId, event.event_id)" >go to event</button>
+
+            </div>
+            <div ng-if="friends.userId !== dashboard.loggedUserId && friends.userId !== event.event_creator">
+
+                  {{friends.username}}
+            </div>
+            <div ng-if="friends.userId === dashboard.loggedUserId && friends.accept === 1">
+              <md-button  class="md-primary md-raised" ng-click="dashboard.enterChat(event.event_id, event.event_name)" >Enter Chat</button>
+            </div>
             </span>
           </div>
         <md-divider ng-if="!$last"></md-divider>
@@ -106,6 +116,30 @@
     </md-list>
   </md-content>
 </div >
+<!-- chat -->
+<div class="col-md-6 event-card ">
+  <md-toolbar class="md-theme-light w3-card-4">
+    <h2 class="md-toolbar-tools">
+      <span>Chat</span>
+    </h2>
+  </md-toolbar>
 
+  <md-content class="w3-card-4">
+            <div class="md-list-item-text">
+            Welcome to {{dashboard.chatName}}!
+          </div>
+      <input type='text' ng-model='dashboard.msg' placeholder="send Message">
+      <button ng-click="dashboard.sendMsg(dashboard.msg)">submit</button>
+
+    <md-list>
+      <md-list-item class="md-3-line" ng-repeat="msg in dashboard.msgList">
+        {{msg.username}} : {{msg.timestamp | date:'MM/dd/yyyy @ h:mma'}} : {{msg.text}}
+
+        <md-divider ng-if="!$last"></md-divider>
+      </md-list-item>
+    </md-list>
+  </md-content>
+
+</div >
 </section>
 </div>

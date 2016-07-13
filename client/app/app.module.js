@@ -11,6 +11,6 @@
       'open.login',
       'open.signup',
       'open.dashboard',
-      'open.chat'
+
     ]);
 })();
