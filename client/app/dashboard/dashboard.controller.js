@@ -5,7 +5,7 @@
     .module('open.dashboard')
     .controller('DashboardController', DashboardController);
 
-  function DashboardController(auth, dashboard, $localStorage, $mdSidenav, $mdDialog, $mdMedia, $scope) {
+  function DashboardController(auth, dashboard, $localStorage, $mdSidenav, $mdDialog, $mdMedia, $scope, chat) {
 
     var vm = this;
 
@@ -21,6 +21,7 @@
     vm.attendEvent = attendEvent;
     vm.trueFriend = [];
     vm.falseFriend = [];
+    vm.filterCreator = filterCreator;
 
     function populateEvents(data) {
       var events = data.data[2];
@@ -177,7 +178,25 @@
 
     }
 
+    function filterCreator(event, friendObj) {
+      console.log("this is event creator",event.event_creator);
 
+      for(var i = 0; i < friendObj.length; i++) {
+        console.log("this is friend Obj", friendObj[i].userId);
+
+        if(event.event_creator === friendObj[i].userId && friendObj[i].accept == 1) {
+          vm.showName = false;
+          vm.addButton = false;
+        }  else if (event.event_creator !== friendObj[i].userId && friendObj[i].accept == 0) {
+          vm.showName = true;
+          vm.addButton = true;
+        }  else if (event.event_creator !== friendObj[i].userId && friendObj[i].accept == 1) {
+          vm.showName = true;
+          vm.addButton = false;
+        }
+
+      }
+    }
 
 
   }

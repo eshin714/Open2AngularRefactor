@@ -5,11 +5,12 @@
     .module('open', [
       'ui.router',
       'ngMaterial',
-      'ng-dropdown',
       'ngStorage',
+      'angular-filepicker',
       'open.landing',
       'open.login',
       'open.signup',
-      'open.dashboard'
+      'open.dashboard',
+      'open.chat'
     ]);
 })();

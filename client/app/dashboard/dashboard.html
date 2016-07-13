@@ -1,11 +1,11 @@
 <div ng-init="dashboard.populateFriendsEvents()">
 
-<div class="sidenav">
-  <md-toolbar class="md-theme-indigo">
+<div class="sidenav w3-card-4">
+  <md-toolbar class="md-theme-indigo w3-card-4">
     <h1 class="md-toolbar-tools">Friends List</h1>
   </md-toolbar>
 
-  <md-list>
+  <md-list >
     <md-list-item class="md-3-line" ng-repeat="friend in dashboard.trueFriend">
       <img class="md-avatar">
       <div class="md-list-item-text">
@@ -41,7 +41,7 @@
 
 
   <toolbar>
-    <md-toolbar class="md-hue-2">
+    <md-toolbar class="md-hue-2 w3-card-4">
       <div class="md-toolbar-tools">
         <md-button class="md-icon-button">
           <md-icon md-svg-icon="" ng-click="dashboard.openNav()">3</md-icon>
@@ -61,41 +61,44 @@
     </md-toolbar>
   </toolbar>
 
-<div class="col-md-12">
-<div class="card">
-  <md-toolbar>
+<div class="col-md-12  event-card">
+<div class="card w3-card-4">
+  <md-toolbar class="w3-card-4">
     <div class="md-toolbar-tools">
       <h3>Add Event</h3>
     </div>
   </md-toolbar>
-
-  <md-input-container class="col-md-12">
-  <span>
-    <input type='text' ng-model='dashboard.eventName' placeholder="What Do YOU want to do?"></input>
-    <md-button class="md-primary md-raised"ng-click="dashboard.addEvent(dashboard.eventName, dashboard.friendsList)">
-    send to friends
-    </md-button>
-  </span>
-  </md-input-container>
-
+  <md-content class="w3-card-4">
+    <md-input-container class="col-md-12">
+    <span>
+      <input type='text' ng-model='dashboard.eventName' placeholder="What Do YOU want to do?">
+      <md-button class="md-primary md-raised"ng-click="dashboard.addEvent(dashboard.eventName, dashboard.friendsList)">
+      send to friends
+      </md-button>
+    </span>
+    </md-input-container>
+  </md-content>
 </div>
-</div >
-
-<div class="col-md-12 event-card">
-  <md-toolbar class="md-theme-light">
+</div>
+</section>
+<section>
+<div class="col-md-12 event-card ">
+  <md-toolbar class="md-theme-light w3-card-4">
     <h2 class="md-toolbar-tools">
       <span>Events</span>
     </h2>
   </md-toolbar>
 
-  <md-content>
+  <md-content class="w3-card-4">
     <md-list>
       <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventList">
           <div class="md-list-item-text">
             <h3>{{event.event_name}}</h3>
             <h4>Event Creator: {{event.event_creator_name}}</h4>
-            <span ng-repeat="friends in event.username">
-              {{friends.username}}
+            <span ng-repeat="friends in event.username | filter: {userId: '!'+dashboard.loggedUserId, accept: 0}">
+            {{friends}}
+            <button>GO to event!</button>
+              <div ng-show="dashboard.showName">{{friends.username}}</div>
             </span>
           </div>
         <md-divider ng-if="!$last"></md-divider>
