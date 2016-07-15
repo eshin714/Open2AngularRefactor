@@ -7,8 +7,9 @@ var db = require('./db');
 
 // routes
 var tokens = require('./tokens')
-var dashboard = require('./routes/dashboard');
 var auth = require('./routes/auth');
+var dashboard = require('./routes/dashboard');
+var chat = require('./routes/chat');
 
 app.use(express.static(__dirname + '/client'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -16,8 +17,11 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan('dev'));
 
-app.use('/dashboard', dashboard);
+
 app.use('/auth', auth);
+app.use('/dashboard', dashboard);
+app.use('/chat', chat);
+
 
 var port = process.env.PORT || 8080;
 

@@ -1,22 +1,37 @@
 <div ng-init="dashboard.populateFriendsEvents()">
 
-<div class="sidenav w3-card-4">
-  <md-toolbar class="md-theme-indigo w3-card-4">
+<div class="sidenav w3-card-4 ">
+<!--   <md-toolbar class="md-theme-indigo w3-card-4">
     <h1 class="md-toolbar-tools">Friends List</h1>
-  </md-toolbar>
-
+  </md-toolbar> -->
+  <div>
+    <img class="img-circle" src="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png" width="160" height="160">
+    <div>
+      {{dashboard.loggedUsername}}
+    </div>
+    <div> Welcome to Cliq. Lets see what your friends are up to.</div>
+    <md-divider></md-divider>
+  </div>
   <md-list >
     <md-list-item class="md-3-line" ng-repeat="friend in dashboard.trueFriend">
-      <img class="md-avatar">
-      <div class="md-list-item-text">
-        <h3>{{friend.username}}</h3>
+        <img src="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png" class="md-avatar">
+      <div class="md-list-item-text inner-text">
+        <h3 class="inner-text">{{friend.username}}</h3>
       </div>
       <md-divider inset=""></md-divider>
     </md-list-item>
     <div>Waiting for your response</div>
+        <li><a href="#nowhere" >Portfolio</a>
+            <ul id="list">
+                <li><a href="#">Comerciais</a> </li>
+                <li><a href="#">Residenciais</a> </li>
+                <li><a href="#">Institucionais</a> </li>
+                <li><a href="#">Edifícios</a> </li>
+            </ul>
+        </li>
 
-    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.falseFriend | filter: { friend_id: dashboard.loggedUserId}">
-      <img class="md-avatar">
+    <md-list-item  class="md-3-line" ng-repeat="friend in dashboard.falseFriend | filter: { friend_id: dashboard.loggedUserId}">
+      <img class="md-avatar" src="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png">
       <div class="md-list-item-text">
         <h3>{{friend.username}}</h3>
         <button ng-click="dashboard.addFriend(friend.user_id, dashboard.loggedUserId)">add friend</button>
@@ -24,6 +39,25 @@
       <md-divider inset=""></md-divider>
     </md-list-item>
     <div>Pending Responses</div>
+
+    <ul>
+        <li><a href="#">Home</a> </li>
+        <li><a href="#">A Empresa</a> </li>
+
+        <li><a href="#">Contato</a> </li>
+    </ul>
+
+
+<!--
+<div class="w3-container">
+  <p>1 new friend request</p>
+  <hr>
+  <img src="img_avatar3.png" alt="Avatar" class="w3-left w3-circle">
+  <p>President/CEO at Mighty Schools...</p>
+</div>
+
+<button class="w3-btn-block w3-dark-grey">+ Connect</button> -->
+
 
     <md-list-item class="md-3-line" ng-repeat="friend in dashboard.falseFriend | filter: { user_id: dashboard.loggedUserId}">
       <img class="md-avatar">
@@ -68,7 +102,7 @@
       <h3>Add Event</h3>
     </div>
   </md-toolbar>
-  <md-content class="w3-card-4">
+  <md-content class="w3-card-4 inner-text">
     <md-input-container class="col-md-12">
     <span>
       <input type='text' ng-model='dashboard.eventName' placeholder="What Do YOU want to do?">
@@ -92,7 +126,7 @@
   <md-content class="w3-card-4">
     <md-list>
       <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventList">
-          <div class="md-list-item-text">
+          <div class="md-list-item-text inner-text">
 
             <h3>{{event.event_name}}</h3>
             <h4>Event Creator: {{event.event_creator_name}}</h4>
@@ -124,7 +158,7 @@
     </h2>
   </md-toolbar>
 
-  <md-content class="w3-card-4">
+  <md-content class="w3-card-4 inner-text">
             <div class="md-list-item-text">
             Welcome to {{dashboard.chatName}}!
           </div>

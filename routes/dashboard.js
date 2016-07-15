@@ -97,18 +97,32 @@ router.post('/acceptFriend', function(req, res) {
 
 router.post('/acceptEvent', function(req, res) {
   var eventObj = req.body;
-  db.query('UPDATE `EventUsers` SET EventsUsers.accept = 1 WHERE Events.id = '+ eventObj.eventId +' AND Events.friend_id = '+ eventObj.userId +';',
+  console.log(eventObj)
+  db.query('UPDATE `EventUsers` SET EventUsers.accept = 1 WHERE EventUsers.event_id = '+ eventObj.eventId +' AND EventUsers.user_id = '+ eventObj.userId +';',
   function(err, results) {
     if(err) {
+      console.log(err);
       res.json({
         success: false,
         message: "Event accept Failed."
       })
     } else {
-      res.json({
-        success: true,
-        message: "Event accepted!",
-        data: results
+      db.query('INSERT INTO `Chats` (`event_id`, `user_id`, `text`, timestamp) VALUES ('+eventObj.eventId+', '+eventObj.userId+', "has joined the chat.", NOW());',
+        function(err, results2) {
+          if(err) {
+            console.log(err);
+            res.json({
+              success: false,
+              message: "Chat create failed"
+            })
+          } else {
+            res.json({
+              success: true,
+              message: "Added Friends to Events and Entered Chat!",
+              eventData: results,
+              chatData: results2
+            });
+          }
       })
     }
   });
@@ -141,17 +155,29 @@ router.post('/createEvent', function(req, res) {
         }
 
         db.query('INSERT INTO `EventUsers` (`event_id`, `user_id`, `accept`)  VALUES ?;', [values],
-          function(err, results) {
+          function(err, results2) {
             if(err) {
               res.json({
                 success: false,
                 message: "Adding Users to Event failed."
               })
             } else {
-              res.json({
-                success: true,
-                message: "Added Friends to Events!",
-                data: results
+              db.query('INSERT INTO `Chats` (`event_id`, `user_id`, `text`, timestamp) VALUES ('+results.insertId+', '+eventObj.userId+', "has created an event", NOW());',
+                function(err, results3) {
+                  if(err) {
+                    console.log(err);
+                    res.json({
+                      success: false,
+                      message: "Chat create failed"
+                    })
+                  } else {
+                    res.json({
+                      success: true,
+                      message: "Added Friends to Events!",
+                      eventData: results2,
+                      chatData: results3
+                    });
+                  }
               })
             }
           }
@@ -161,7 +187,7 @@ router.post('/createEvent', function(req, res) {
   )
 })
 
-
+router.post('/getChat')
 
 
 

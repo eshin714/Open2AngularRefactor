@@ -10,6 +10,7 @@
     var vm = this;
 
     vm.loggedUserId = $localStorage.userdata.id;
+    vm.loggedUsername = $localStorage.userdata.username;
     vm.populateFriendsEvents = populateFriendsEvents;
 
     vm.findFriend = findFriend;
