@@ -3,6 +3,7 @@
 
   angular
     .module('open', [
+      'btford.socket-io',
       'ui.router',
       'ngMaterial',
       'ngStorage',

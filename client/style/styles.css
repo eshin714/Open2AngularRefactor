@@ -34,6 +34,23 @@ h3 {
 h4 {
   font-family: Lobster;
 }
+
+.button-align {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.friend-img {
+  padding: 7px;
+  height: 60px;
+  width: 60px;
+  margin-top: 10px;
+}
+
+.friend-name {
+  padding-left: 10px;
+}
+
 /*.custom-text {
   font-family: Raleway;
   font-size: 5vw;

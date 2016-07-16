@@ -25,6 +25,11 @@
     vm.sendMsg = sendMsg;
 
     function populateEvents(data) {
+
+      chat.on('init', function (data2) {
+        console.log("data from emit",data)
+      });
+
       var events = data.data[2];
       var eventOutput = [];
       //events parser

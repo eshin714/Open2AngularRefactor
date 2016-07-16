@@ -4,6 +4,9 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var morgan = require('morgan');
 var db = require('./db');
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+
 
 // routes
 var tokens = require('./tokens')
@@ -22,7 +25,8 @@ app.use('/auth', auth);
 app.use('/dashboard', dashboard);
 app.use('/chat', chat);
 
+io.sockets.on('connection', require('./routes/chat'));
 
 var port = process.env.PORT || 8080;
 
-app.listen(port, console.log('Listening to port', port));
+server.listen(port, console.log('Listening to port', port));

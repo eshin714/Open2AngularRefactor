@@ -5,10 +5,12 @@
     .module('open')
     .factory('chat', chat);
 
-  function chat($http) {
+  function chat($http, $rootScope, socketFactory) {
     var service = {
       openChat: openChat,
-      addMsg: addMsg
+      addMsg: addMsg,
+      on: on,
+      emit: emit,
     };
     return service;
 
@@ -26,6 +28,30 @@
         return data.data;
       })
   }
+
+  function on(eventName, callback) {
+    var socket = io.connect();
+    socket.on(eventName, function() {
+      var args = arguments;
+      $rootScope.$apply(function() {
+        callback.apply(socket, args);
+      });
+    });
+  }
+
+  function emit(eventName, data, callback) {
+    socket.emit(eventName, data, function() {
+      var args = arguments;
+      $rootScope.$apply(function() {
+        if(callback) {
+          callback.apply(socket, args);
+        }
+      })
+    })
+  }
+
+
+
 
   }
 })();
