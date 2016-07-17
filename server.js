@@ -4,9 +4,8 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var morgan = require('morgan');
 var db = require('./db');
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
-
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 // routes
 var tokens = require('./tokens')
@@ -23,10 +22,24 @@ app.use(morgan('dev'));
 
 app.use('/auth', auth);
 app.use('/dashboard', dashboard);
-app.use('/chat', chat);
 
-io.sockets.on('connection', require('./routes/chat'));
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
+
+io.on('connection', function(socket){
+  console.log("in chat")
+  socket.on('chat message', function(msg){
+    console.log('message: ' + msg.message);
+  });
+});
+
 
 var port = process.env.PORT || 8080;
 
-server.listen(port, console.log('Listening to port', port));
+http.listen(port, console.log('Listening to port', port));
+
+app.use('/chat', chat);

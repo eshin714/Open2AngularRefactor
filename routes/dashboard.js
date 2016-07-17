@@ -3,14 +3,12 @@ var router = express.Router();
 var db = require('../db.js');
 
 router.post('/', function(req, res) {
-  console.log(req.body)
   var userId = req.body.id;
   db.query('SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id = Users.id WHERE Friends.user_id = '+ userId +';                                         SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.User_id = Users.id WHERE Friends.friend_id = '+ userId +'; SELECT EventUsers.event_id, Events.event_name, Events.event_creator, Events.date_created, EventUsers.accept, EventUsers.user_id, Users.username FROM Events INNER JOIN EventUsers ON Events.id = EventUsers.event_id INNER JOIN Users ON EventUsers.user_id = Users.id WHERE Events.id = ANY (SELECT EventUsers.event_id FROM EventUsers WHERE EventUsers.user_id = '+ userId +');',
       function(err, results) {
       if(err) {
         console.log(err)
       } else {
-        console.log("success", results)
         res.json({
           success: true,
           data: results
@@ -20,7 +18,6 @@ router.post('/', function(req, res) {
 })
 
 router.post('/search', function(req, res) {
-  console.log('friend obj', req.body)
   var friendName = req.body.username;
   db.query('SELECT * FROM Users WHERE username = ?', [friendName], function(err, results) {
       if(err) {
@@ -31,7 +28,6 @@ router.post('/search', function(req, res) {
         data: results
         })
       } else {
-        console.log('success', results)
         res.json({
           success: true,
           message: "User Found",
@@ -42,9 +38,7 @@ router.post('/search', function(req, res) {
 })
 
 router.post('/request', function(req, res) {
-  console.log('friend obj', req.body)
   var friendObj = req.body;
-
   db.query('SELECT * FROM Friends WHERE (user_id = '+ friendObj.userId +' AND friend_id = ' + friendObj.friendId +') OR (user_id = '+ friendObj.friendId +' AND friend_id = ' + friendObj.userId +');', function(err, results) {
     if(results.length === 0) {
       db.query('INSERT INTO Friends (`user_id`, `friend_id`) VALUES ('+friendObj.userId +','+friendObj.friendId+')',
@@ -52,7 +46,6 @@ router.post('/request', function(req, res) {
           if (err) {
             throw err;
           } else {
-            console.log('success', results, fields);
             res.json({
               success: true,
               message: "Friend Request Sent!",
@@ -61,7 +54,6 @@ router.post('/request', function(req, res) {
           }
       });
     } else {
-      console.log("Friends Connection", results)
       res.json({
         success: false,
         message: "Already your friend.",
@@ -97,7 +89,6 @@ router.post('/acceptFriend', function(req, res) {
 
 router.post('/acceptEvent', function(req, res) {
   var eventObj = req.body;
-  console.log(eventObj)
   db.query('UPDATE `EventUsers` SET EventUsers.accept = 1 WHERE EventUsers.event_id = '+ eventObj.eventId +' AND EventUsers.user_id = '+ eventObj.userId +';',
   function(err, results) {
     if(err) {
@@ -134,7 +125,6 @@ router.post('/acceptEvent', function(req, res) {
 router.post('/createEvent', function(req, res) {
   var eventObj = req.body;
   var friends = eventObj.friendsObj;
-
   db.query('INSERT INTO `Events` (`id`, `event_name`, `event_creator`, `date_created`) VALUES (NULL, "'+eventObj.eventName+'", '+eventObj.userId+', NOW());',
     function(err, results) {
       if(err) {
@@ -187,7 +177,7 @@ router.post('/createEvent', function(req, res) {
   )
 })
 
-router.post('/getChat')
+
 
 
 

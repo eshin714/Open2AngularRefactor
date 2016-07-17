@@ -39,15 +39,12 @@
     });
   }
 
-  function emit(eventName, data, callback) {
-    socket.emit(eventName, data, function() {
-      var args = arguments;
-      $rootScope.$apply(function() {
-        if(callback) {
-          callback.apply(socket, args);
-        }
-      })
-    })
+  function emit(){
+    console.log("emitting Socket");
+
+    var socket = io.connect();
+    socket.emit('chat message', {message: "Hello World"});
+
   }
 
 

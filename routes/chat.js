@@ -3,7 +3,6 @@ var router = express.Router();
 var db = require('../db.js');
 var io = require('socket.io')
 
-
 router.post('/', function(req, res) {
   var eventObj = req.body;
   db.query('SELECT Users.username, Chats.timestamp, Chats.text FROM `Chats` INNER JOIN Users ON Chats.user_id = Users.id WHERE Chats.event_id ='+ eventObj.eventId +';',
@@ -15,6 +14,7 @@ router.post('/', function(req, res) {
           data: results
         })
       } else {
+
         res.json({
           success: true,
           message: "Entering Chat",
@@ -56,16 +56,6 @@ router.post('/addMsg', function(req, res) {
     }
   )
 })
-
-
-
-  // send the new user their name and a list of users
-  // socket.emit('init', {
-  //   name: name,
-  //   users: userNames.get()
-  // });
-
-  // notify o
 
 
 

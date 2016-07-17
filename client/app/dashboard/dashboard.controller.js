@@ -25,10 +25,10 @@
     vm.sendMsg = sendMsg;
 
     function populateEvents(data) {
-
-      chat.on('init', function (data2) {
-        console.log("data from emit",data)
-      });
+      var socket = io();
+      // chat.on('init', function (data2) {
+      //   console.log("data from emit",data)
+      // });
 
       var events = data.data[2];
       var eventOutput = [];
@@ -182,7 +182,7 @@
       msgObj.eventId = vm.currentEventId;
       msgObj.userId = vm.loggedUserId;
       msgObj.text = msg;
-
+      chat.emit()
       chat.addMsg(msgObj)
         .then(function(data) {
           vm.msgList.push(data.data[0])
