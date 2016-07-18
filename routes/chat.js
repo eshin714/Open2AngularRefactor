@@ -1,7 +1,22 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db.js');
-var io = require('socket.io')
+var io = require('../sockets.js');
+
+
+// io.on('connection',function(socket){
+//     console.log("A user is connected");
+//     socket.on('status added',function(status){
+//       add_status(status,function(res){
+//         if(res){
+//             io.emit('refresh feed',status);
+//         } else {
+//             io.emit('error');
+//         }
+//       });
+//     });
+// });
+
 
 router.post('/', function(req, res) {
   var eventObj = req.body;
@@ -14,7 +29,6 @@ router.post('/', function(req, res) {
           data: results
         })
       } else {
-
         res.json({
           success: true,
           message: "Entering Chat",
@@ -26,6 +40,7 @@ router.post('/', function(req, res) {
 })
 
 router.post('/addMsg', function(req, res) {
+
   var msgObj = req.body;
   db.query('INSERT INTO `Chats`(`event_id`, `user_id`, `timestamp`, `text`) VALUES ('+msgObj.eventId+', '+msgObj.userId+', NOW(), "'+msgObj.text+'")', function(err, results) {
       if(err) {
@@ -44,6 +59,8 @@ router.post('/addMsg', function(req, res) {
               data: results
             })
           } else {
+
+
             res.json({
               success: true,
               message: "Msg Added",

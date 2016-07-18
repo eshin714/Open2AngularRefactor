@@ -39,11 +39,11 @@
     });
   }
 
-  function emit(){
+  function emit(msgObj){
     console.log("emitting Socket");
 
     var socket = io.connect();
-    socket.emit('chat message', {message: "Hello World"});
+    socket.emit('chat', msgObj);
 
   }
 

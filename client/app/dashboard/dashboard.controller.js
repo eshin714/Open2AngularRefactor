@@ -25,11 +25,11 @@
     vm.sendMsg = sendMsg;
 
     function populateEvents(data) {
-      var socket = io();
+
       // chat.on('init', function (data2) {
       //   console.log("data from emit",data)
       // });
-
+      // chat.emit({Hello: "World21312"})
       var events = data.data[2];
       var eventOutput = [];
       //events parser
@@ -164,6 +164,7 @@
     };
 
     function enterChat(eventId, eventName) {
+
       var eventObj = {};
       eventObj.eventId = eventId;
       eventObj.userId = vm.loggedUserId;
@@ -178,11 +179,12 @@
     };
 
     function sendMsg(msg) {
+
       var msgObj = {};
       msgObj.eventId = vm.currentEventId;
       msgObj.userId = vm.loggedUserId;
       msgObj.text = msg;
-      chat.emit()
+      chat.emit(msgObj);
       chat.addMsg(msgObj)
         .then(function(data) {
           vm.msgList.push(data.data[0])
