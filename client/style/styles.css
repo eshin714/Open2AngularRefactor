@@ -4,6 +4,7 @@
       padding: 1px solid black !important;
 
 }*/
+
 @import url('https://fonts.googleapis.com/css?family=Lobster');
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 
@@ -12,10 +13,13 @@
  font-family: Raleway;
 }
 
+.user-img-circle {
+  width: 75%;
+}
 
-#wrap {
-  width: 900px;
-  margin: 0 auto;
+.img-circle {
+  height: 250px;
+  width: 250px;
 }
 
 h1 {
@@ -52,71 +56,37 @@ h4 {
 }
 
 .user-card{
-
-}
-
-/*.custom-text {
-  font-family: Raleway;
-  font-size: 5vw;
-}
-
-.custom-center {
+  max-height: 350px;
+  max-width: 350px;
   align: center;
-  text-align: center;
+  background-color: blue;
 }
 
-.custom-button {
+#friend-in-events1 {float:left;margin-right:10px;}
+#friend-in-events2 {float:left;margin-left:10px;}
 
-  margin-left:auto;
-  margin-right:auto;
-  display:block;
-  margin-top:10%;
- }
-
-.custom-modal {
-  width: 400px;
-  height: 400px;
-}
-
-.custom-form {
-
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-}
-
-.Center-Container {
-  position: relative;
-}
-
-.sideright {
-  background-color: black;
-  margin: 10px:
-  border-radius: 5px;
-  padding: 20px:
-  font-size: 105%;
-  float: left;
-  width:  260px;
-}*/
 .sidenav {
-  position: absolute;
+  position: fixed;
   left: 0px;
   width: 20%;
   height: 100%;
   margin-right: 3%;
-
+/*  max-width: 350px;*/
 }
 
 section {
   margin-left: 20%;
+  max-width: 100%;
 }
 
 .event-card {
-   margin-top:20px;
+  margin-top:20px;
   border: 3%;
 
 }
 .feature-cards {
   font-size: 20px;
+  padding:20px;
 }
 
 .inner-text {
@@ -135,6 +105,33 @@ a:focus + #list {
 a:focus {
   pointer-events:none;
   }
+.chat-bubble {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: grey;
+
+      background-color: #F2F2F2;
+    border-radius: 5px;
+    box-shadow: 0 0 6px #B2B2B2;
+
+}
+.chat-bubble-text {
+  padding: 10px;
+}
+.chat-bubble-img {
+/*  padding-top: 10px;*/
+}
+.chat-card {
+  max-height: 500px;
+}
+
+.chat-img {
+  padding: 10px;
+  height: 80px;
+  width: 80px;
+}
+
+
 /*@media only screen and (max-width: 500px) {
     body {
         background-color: lightblue;
@@ -193,13 +190,17 @@ body {
 .carousel {
   height: 768px;
   margin-bottom: 60px;
-
+      background: url('http://www.greenland.com/media/4913/hiking-along-the-edge-near-tiniteqilaaq-visit-greenland.jpg?width=1920&height=1280&mode=crop&format=jpg&quality=60') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
   color: black  ;
 
-    margin-top:50px;
+    margin-top:150px;
     top: 0;
     bottom: auto;
 }
@@ -207,7 +208,7 @@ body {
 /* Declare heights because of positioning of img element */
 .carousel .item {
   height: 768px;
-  background-color: blue;
+/*  background-color: blue;*/
 }
 .carousel-inner > .item > img {
   position: absolute;
@@ -223,6 +224,7 @@ body {
 
 /* Center align the text within the three columns below the carousel */
 .marketing .col-lg-4 {
+  margin-top: 20px;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -301,6 +303,6 @@ body {
   .featurette-heading {
     margin-top: 50px;
   }
-
-
+  #wrap { width:500px; margin:0 auto; border:3px solid red; }
+  #body { overflow:auto; }
 }

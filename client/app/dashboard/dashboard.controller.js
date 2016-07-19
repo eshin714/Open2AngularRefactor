@@ -22,6 +22,7 @@
     vm.enterChat = enterChat;
     vm.sendMsg = sendMsg;
     vm.logout = logout;
+    vm.bubbleFilter = bubbleFilter;
     vm.msgList = [];
 
     function logout() {
@@ -169,6 +170,7 @@
           vm.currentEventId = eventId;
           vm.chatName = eventName;
           vm.msgList = data.data;
+
         })
 
       function request(eventObj) {
@@ -198,5 +200,14 @@
       vm.msgList.push(data[0])
     })
 
+    function bubbleFilter(username) {
+      if(username === vm.loggedUsername) {
+        vm.flexText = "90";
+        return '10';
+      } else {
+        vm.flexText = "10";
+        return '90';
+      }
+    }
   }
 })();

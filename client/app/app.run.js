@@ -11,7 +11,7 @@
     if (auth.current()) {
       $http.defaults.headers.common.username = $localStorage.userdata.username;
       $http.defaults.headers.common.token = $localStorage.userdata.token;
-      auth.tokenCheck();
+      // if(auth.tokenCheck());
     }
 
     $rootScope.$on('$stateChangeStart', function(event, toState) {

@@ -20,7 +20,7 @@ io.on('connection',function(socket){
 
 function showMsg(data, socket) {
   var eventObj = data;
-  db.query('SELECT Users.username, Chats.timestamp, Chats.text FROM `Chats` INNER JOIN Users ON Chats.user_id = Users.id WHERE Chats.event_id ='+ eventObj.eventId +';',
+  db.query('SELECT Users.username, Chats.timestamp, Chats.text FROM `Chats` INNER JOIN Users ON Chats.user_id = Users.id WHERE Chats.event_id ='+ eventObj.eventId +' ORDER BY Chats.timestamp ASC;',
     function(err, results) {
       if(err) {
         console.log(err);
