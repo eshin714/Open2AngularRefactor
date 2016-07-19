@@ -7,16 +7,19 @@
 
   function run($state, $http, auth, $rootScope, $localStorage) {
 
-    // if (auth.current().token) {
-    //   $http.defaults.headers.common.username = auth.current().username;
-    //   $http.defaults.headers.common.token = auth.current().token;
-    // }
+    console.log("this is auth . current",auth.current())
+    if (auth.current()) {
+      $http.defaults.headers.common.username = $localStorage.userdata.username;
+      $http.defaults.headers.common.token = $localStorage.userdata.token;
+      auth.tokenCheck();
+    }
 
     $rootScope.$on('$stateChangeStart', function(event, toState) {
       var requiredLogin = toState.data.requiredLogin;
 
-      if(requiredLogin) {
-        auth.tokenCheck();
+      if(requiredLogin && auth.current() === undefined) {
+        event.preventDefault();
+        $state.go('landing');
       }
     })
   }

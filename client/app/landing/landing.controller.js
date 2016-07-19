@@ -5,7 +5,7 @@
     .module('open.landing')
     .controller('LandingController', LandingController);
 
-  function LandingController($mdDialog, $mdMedia) {
+  function LandingController($mdDialog, $mdMedia, $state, auth) {
 
     var vm = this;
 
@@ -13,12 +13,22 @@
     vm.openSignup = openSignup;
 
     function openLogin(ev) {
-      $mdDialog.show({
-         targetEvent: ev,
-         templateUrl: 'app/login/login.html',
-         controller: 'LoginController as login',
-         clickOutsideToClose:true
-      });
+
+      auth.tokenCheck()
+        .then(function(data) {
+          console.log("Data from open Login", data)
+          if(data.success) {
+            console.log("already Logged in, routing to dashboard");
+            $state.go('dashboard');
+          } else {
+            $mdDialog.show({
+              targetEvent: ev,
+              templateUrl: 'app/login/login.html',
+              controller: 'LoginController as login',
+              clickOutsideToClose:true
+            });
+          }
+        })
     };
 
     function openSignup(ev) {

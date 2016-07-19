@@ -5,7 +5,6 @@ var db = require('../db.js');
 var tokens = require('../tokens.js')
 
 router.get('/', function(req, res) {
-  console.log(req.headers)
   tokens.verify(req.headers.token, res)
 })
 
@@ -37,31 +36,36 @@ router.post('/', function(req, res) {
 
 router.post('/login', function(req, res) {
   var userObj = req.body;
-  console.log(userObj)
-  console.log(req.body.username)
 
   db.query('SELECT Users.username, Users.password, Users.id FROM Users WHERE Users.username =  ?', [userObj.username],
     function(err, results, fields) {
-      var user = results[0];
-
-      if(user !== undefined && bcrypt.compareSync(userObj.password, user["password"])) {
-
-        console.log("Logging in now!")
-        res.json({
-          success: true,
-          message: "Success! Logging in now.",
-          userdata: {
-            username: user["username"],
-            id: user["id"],
-            token: tokens.createToken({user: userObj.username})
-          }
-        })
-      } else {
+      if(err) {
         console.log("Users does not exist or Password is incorrect");
         res.json({
           success: false,
-          message: "Fail. Password Incorrect!"
+          message: "Users does not exist or Password is incorrect. Please Try again."
         });
+      } else {
+        var user = results[0];
+        if(user !== undefined && bcrypt.compareSync(userObj.password, user["password"])) {
+
+          console.log("Logging in now!")
+          res.json({
+            success: true,
+            message: "Success! Logging in now.",
+            userdata: {
+              username: user["username"],
+              id: user["id"],
+              token: tokens.createToken({user: userObj.username})
+            }
+          })
+        } else {
+          console.log("Users does not exist or Password is incorrect");
+          res.json({
+            success: false,
+            message: "Users does not exist or Password is incorrect"
+          });
+        }
       }
     })
 });

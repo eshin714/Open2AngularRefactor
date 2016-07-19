@@ -1,10 +1,5 @@
-var server = require('./server.js');
-var io = require('socket.io').listen(server);
+var express = require('express');
+var router = express.Router();
+var db = require('./db.js');
 
-io.on('connection',function(socket){
-    console.log("A user is connected");
-    socket.on('chat',function(data){
 
-      console.log("This is data", data)
-    });
-});

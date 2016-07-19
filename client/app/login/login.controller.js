@@ -15,7 +15,6 @@
       var userObj = {};
       userObj.username = username;
       userObj.password = password;
-
       auth.login(userObj)
         .then(function(data) {
           console.log(data);

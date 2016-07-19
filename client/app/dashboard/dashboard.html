@@ -4,9 +4,9 @@
 
 <div class="w3-card-2">
 
-  <div class="w3-container w3-center">
+  <div class="w3-container w3-center user-card">
     <h3></h3>
-    <img class="img-circle" src="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png" alt="Avatar" style="width:80%">
+    <img class="img-circle" src="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png" alt="Avatar" style="width:70%">
     <h5>{{dashboard.loggedUsername}}</h5>
     <div> Welcome to Cliq. Lets see what your friends are up to.</div>
     <br>
@@ -94,7 +94,7 @@
           ng-click="dashboard.showSearch($event)">
             Search For Friends
           </md-button>
-          <md-button class="md-primary md-raised">
+          <md-button ng-click="dashboard.logout()"class="md-primary md-raised">
             Log out
           </md-button>
       </div>

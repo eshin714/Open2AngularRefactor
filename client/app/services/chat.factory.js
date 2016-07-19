@@ -5,21 +5,21 @@
     .module('open')
     .factory('chat', chat);
 
-  function chat($http, $rootScope, socketFactory) {
+  function chat($http, $rootScope, $window, socket) {
+
     var service = {
       openChat: openChat,
       addMsg: addMsg,
       on: on,
       emit: emit,
+      // enterEvent: enterEvent
     };
     return service;
 
-
   function openChat(eventObj) {
-    return $http.post('/chat', eventObj)
-      .then(function(data) {
-        return data.data;
-      })
+    on('enterEvent', function(data) {
+      return data
+    })
   }
 
   function addMsg(msgObj) {
@@ -29,25 +29,39 @@
       })
   }
 
-  function on(eventName, callback) {
-    var socket = io.connect();
-    socket.on(eventName, function() {
-      var args = arguments;
-      $rootScope.$apply(function() {
-        callback.apply(socket, args);
-      });
+
+
+function on(eventName, callback) {
+  // var socket = io.connect();
+  socket.on(eventName, function() {
+    var args = arguments;
+    $rootScope.$applyAsync(function() {
+      callback.apply(socket, args);
     });
-  }
+  });
+}
 
-  function emit(msgObj){
-    console.log("emitting Socket");
+function emit(eventName, data, callback) {
+  // var socket = io.connect();
+  socket.emit(eventName, data, function() {
+    var args = arguments;
+    $rootScope.$applyAsync(function() {
+      if (callback) {
+        callback.apply(socket, args);
+      }
+    });
+  });
+  // socket.on('sentMsg', function(data) {
+  //   console.log("sent",data);
+  // })
+}
 
-    var socket = io.connect();
-    socket.emit('chat', msgObj);
-
-  }
 
 
+  // function enterEvent(eventObj) {
+  //   var socket = io.connect();
+  //   socket.emit('enterEvent', eventObj);
+  // }
 
 
   }

@@ -5,7 +5,7 @@
     .module('open.dashboard')
     .controller('DashboardController', DashboardController);
 
-  function DashboardController(auth, dashboard, $localStorage, $mdSidenav, $mdDialog, $mdMedia, $scope, chat) {
+  function DashboardController(auth, dashboard, $localStorage, $mdSidenav, $mdDialog, $mdMedia, $state, chat, $window, $scope, socket, $q) {
 
     var vm = this;
 
@@ -23,13 +23,16 @@
     vm.falseFriend = [];
     vm.enterChat = enterChat;
     vm.sendMsg = sendMsg;
+    vm.logout = logout;
+    vm.msgList = [];
+
+
+
+    function logout() {
+      auth.logout();
+    }
 
     function populateEvents(data) {
-
-      // chat.on('init', function (data2) {
-      //   console.log("data from emit",data)
-      // });
-      // chat.emit({Hello: "World21312"})
       var events = data.data[2];
       var eventOutput = [];
       //events parser
@@ -164,33 +167,49 @@
     };
 
     function enterChat(eventId, eventName) {
-
       var eventObj = {};
       eventObj.eventId = eventId;
+      eventObj.eventName = eventName;
       eventObj.userId = vm.loggedUserId;
-      chat.openChat(eventObj)
+      request(eventObj)
         .then(function(data) {
           console.log("chat data.", data)
           vm.currentEventId = eventId;
           vm.chatName = eventName;
           vm.msgList = data.data;
-
+          // vm.msgList.push(data.data);
+          // console.log(vm.msgList)
         })
+
+      function request(eventObj) {
+        var deferred = $q.defer();
+        chat.emit('enterEvent', eventObj)
+        chat.on('status', function(d) {
+          deferred.resolve(d);
+        });
+        return deferred.promise;
+      }
     };
 
     function sendMsg(msg) {
-
+      console.log("current Event Id", vm.currentEventId)
       var msgObj = {};
+      msgObj.username = vm.loggedUsername;
       msgObj.eventId = vm.currentEventId;
       msgObj.userId = vm.loggedUserId;
       msgObj.text = msg;
-      chat.emit(msgObj);
-      chat.addMsg(msgObj)
-        .then(function(data) {
-          vm.msgList.push(data.data[0])
-        })
+      chat.emit("sendMsg", msgObj)
     };
 
+    chat.on('sentMsg', function(data) {
+      console.log("User sent Message",data);
+      vm.msgList.push(data[0])
+    })
+
+    chat.on('receivedMsg', function(data) {
+      console.log(""+data.username+" sent message: ",data);
+      vm.msgList.push(data[0])
+    })
 
   }
 })();
