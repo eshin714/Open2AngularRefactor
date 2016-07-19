@@ -19,7 +19,6 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan('dev'));
 
-
 app.use('/auth', auth);
 app.use('/dashboard', dashboard);
 app.use('/chat', chat);
@@ -27,6 +26,3 @@ app.use('/chat', chat);
 var port = process.env.PORT || 8080;
 
 http.listen(port, console.log('Listening to port', port));
-
-
-

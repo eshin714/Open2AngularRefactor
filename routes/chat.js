@@ -8,13 +8,11 @@ io.on('connection',function(socket){
     console.log("A user is connected");
 
     socket.on('enterEvent', function(data) {
-      console.log("eventering event, here is data", data)
       socket.join(data.eventId);
       showMsg(data, socket);
     })
 
     socket.on('sendMsg',function(data){
-      console.log("This is data", data)
       addMsg(data, socket);
     });
 
@@ -66,7 +64,5 @@ function addMsg(data, socket) {
     }
   )
 }
-
-
 
 module.exports = router;

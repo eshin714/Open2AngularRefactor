@@ -5,14 +5,12 @@
     .module('open.dashboard')
     .controller('DashboardController', DashboardController);
 
-  function DashboardController(auth, dashboard, $localStorage, $mdSidenav, $mdDialog, $mdMedia, $state, chat, $window, $scope, socket, $q) {
+  function DashboardController(auth, dashboard, $localStorage, $mdDialog, $mdMedia, chat, $scope, $q) {
 
     var vm = this;
-
     vm.loggedUserId = $localStorage.userdata.id;
     vm.loggedUsername = $localStorage.userdata.username;
     vm.populateFriendsEvents = populateFriendsEvents;
-
     vm.findFriend = findFriend;
     vm.showSearch = showSearch;
     vm.sendRequest = sendRequest;
@@ -25,8 +23,6 @@
     vm.sendMsg = sendMsg;
     vm.logout = logout;
     vm.msgList = [];
-
-
 
     function logout() {
       auth.logout();
@@ -92,7 +88,6 @@
         .then(function(data) {
           populateEvents(data)
           populateFriends(data)
-          // vm.eventsList = data.data[2];
         });
     };
 
@@ -148,7 +143,6 @@
       eventObj.eventName = event;
       eventObj.userId = vm.loggedUserId;
       eventObj.friendsObj = vm.trueFriend;
-      console.log("Event obj sent to add events",eventObj);
       dashboard.createEvent(eventObj)
         .then(function(data) {
           console.log("added Event Data", data);
@@ -159,10 +153,9 @@
       var eventObj = {};
       eventObj.userId = userId;
       eventObj.eventId = eventId;
-      console.log("attending Event", eventObj)
       dashboard.acceptEvent(eventObj)
         .then(function(data) {
-          console.log("accepted Event", data)
+          console.log("attending event ", data)
         })
     };
 
@@ -173,12 +166,9 @@
       eventObj.userId = vm.loggedUserId;
       request(eventObj)
         .then(function(data) {
-          console.log("chat data.", data)
           vm.currentEventId = eventId;
           vm.chatName = eventName;
           vm.msgList = data.data;
-          // vm.msgList.push(data.data);
-          // console.log(vm.msgList)
         })
 
       function request(eventObj) {
@@ -192,7 +182,6 @@
     };
 
     function sendMsg(msg) {
-      console.log("current Event Id", vm.currentEventId)
       var msgObj = {};
       msgObj.username = vm.loggedUsername;
       msgObj.eventId = vm.currentEventId;
@@ -202,12 +191,10 @@
     };
 
     chat.on('sentMsg', function(data) {
-      console.log("User sent Message",data);
       vm.msgList.push(data[0])
     })
 
     chat.on('receivedMsg', function(data) {
-      console.log(""+data.username+" sent message: ",data);
       vm.msgList.push(data[0])
     })
 
