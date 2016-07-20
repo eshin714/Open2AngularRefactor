@@ -5,7 +5,7 @@
     .module('open.dashboard')
     .controller('DashboardController', DashboardController);
 
-  function DashboardController(auth, dashboard, $localStorage, $mdDialog, $mdMedia, chat, $scope, $q) {
+  function DashboardController(auth, dashboard, $localStorage, $mdDialog, $mdMedia, chat, $scope, $q, filepickerService) {
 
     var vm = this;
     vm.loggedUserId = $localStorage.userdata.id;
@@ -24,12 +24,15 @@
     vm.logout = logout;
     vm.bubbleFilter = bubbleFilter;
     vm.msgList = [];
+    vm.userPhoto = ""+$localStorage.userdata.pic;
+    console.log(vm.userPhoto)
 
     function logout() {
       auth.logout();
     }
 
     function populateEvents(data) {
+      console.log(data)
       var events = data.data[2];
       var eventOutput = [];
       //events parser
@@ -42,7 +45,8 @@
               eventOutput[existingIndex].username = eventOutput[existingIndex].username.concat({
                   username: value.username,
                   userId: value.user_id,
-                  accept: value.accept
+                  accept: value.accept,
+                  pic: value.pic
                 });
           }
           else {
@@ -50,7 +54,8 @@
                   value.username = [{
                     username: value.username,
                     userId: value.user_id,
-                    accept: value.accept
+                    accept: value.accept,
+                    pic: value.pic
                   }];
               eventOutput.push(value);
           }
@@ -208,6 +213,19 @@
         vm.flexText = "10";
         return '90';
       }
+    }
+
+    function uploadPhoto() {
+      filepickerService.pick({mimetype: 'image/*'}, function(Blob) {
+        var userObj = {};
+        userObj.profileImg = Blob.url;
+        userObj.userId = vm.loggedUserId;
+        dashboard.imageUrl(userObj)
+        .then(function(data) {
+          console.log(data);
+          // vm.userPhoto = data.data[0].pic;
+        });
+      });
     }
   }
 })();

@@ -4,7 +4,7 @@ var db = require('../db.js');
 
 router.post('/', function(req, res) {
   var userId = req.body.id;
-  db.query('SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id = Users.id WHERE Friends.user_id = '+ userId +';                                         SELECT Users.username, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.User_id = Users.id WHERE Friends.friend_id = '+ userId +'; SELECT EventUsers.event_id, Events.event_name, Events.event_creator, Events.date_created, EventUsers.accept, EventUsers.user_id, Users.username FROM Events INNER JOIN EventUsers ON Events.id = EventUsers.event_id INNER JOIN Users ON EventUsers.user_id = Users.id WHERE Events.id = ANY (SELECT EventUsers.event_id FROM EventUsers WHERE EventUsers.user_id = '+ userId +');',
+  db.query('SELECT Users.username, Users.pic, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id = Users.id WHERE Friends.user_id = '+ userId +';                           SELECT Users.username, Users.pic, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.User_id = Users.id WHERE Friends.friend_id = '+ userId +'; SELECT EventUsers.event_id, Events.event_name, Events.event_creator, Events.date_created, EventUsers.accept, EventUsers.user_id, Users.username FROM Events INNER JOIN EventUsers ON Events.id = EventUsers.event_id INNER JOIN Users ON EventUsers.user_id = Users.id WHERE Events.id = ANY (SELECT EventUsers.event_id FROM EventUsers WHERE EventUsers.user_id = '+ userId +');',
       function(err, results) {
       if(err) {
         console.log(err)
@@ -177,7 +177,41 @@ router.post('/createEvent', function(req, res) {
   )
 })
 
-
+//upload photo
+router.post('/image', function(req, res) {
+  var userObj = req.body;
+  console.log(userObj)
+  db.query('UPDATE `Users` SET Users.pic ="'+userObj.profileImg+'" WHERE Users.id ='+userObj.userId+';',
+    function(err, results) {
+      if(err) {
+        console.log("error",err)
+        res.json({
+          succes: false,
+          message: "Upload failed."
+        })
+      } else {
+        console.log("success1", results)
+        results.insertId
+        db.query('SELECT Users.pic FROM `Users` WHERE Users.id ='+ userObj.userId +';',
+          function(err, results1) {
+            if(err) {
+                      console.log("error",err)
+              res.json({
+                success: false,
+                message: "Photo Uploaded but user not found"
+              })
+            } else {
+                      console.log("success",results1)
+              res.json({
+                success: true,
+                message: "Success! Returning Users row.",
+                data: results1
+              })
+            }
+          })
+      }
+    })
+})
 
 
 

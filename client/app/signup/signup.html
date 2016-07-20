@@ -2,13 +2,11 @@
    <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Sign-Up</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="cancel()">X</md-button>
       </div>
     </md-toolbar>
+<div style="padding-top:30px; text-align: center;">Welcome!</div>
 
-
-<form>
+<form style="width:475px; padding-top:30px; padding: 50px">
   <md-input-container>
     <input type='text' ng-model='signup.username' placeholder="Username"><br>
   </md-input-container>
@@ -24,14 +22,15 @@
     <input type='password' ng-model='signup.passwordConfirm' placeholder="password"><br>
   </md-input-container>
 
-  <div>
-    {{signup.errors}}
-  <div>
-
-<md-dialog-actions layout="row">
+  <div ng-repeat="errors in signup.errors" style="height:35px; width:400px; color: red">
+    {{errors}}
+  </div>
+</form>
+<md-dialog-actions  layout="row">
+  <md-button class="md-raised md-primary" ng-click=''>Cancel</md-button>
   <md-button ng-click='signup.submit(signup.username, signup.email, signup.password, signup.passwordConfirm)'>Submit</md-button>
 </md-dialog-actions>
 
-</form>
+
 
 </md-dialog>

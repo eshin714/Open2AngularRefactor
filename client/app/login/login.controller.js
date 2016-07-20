@@ -5,7 +5,7 @@
     .module('open.login')
     .controller('LoginController', LoginController);
 
-  function LoginController(auth, $http, $state) {
+  function LoginController(auth, $http, $state, $rootScope) {
 
     var vm = this;
 
@@ -17,8 +17,10 @@
       userObj.password = password;
       auth.login(userObj)
         .then(function(data) {
-          console.log(data);
+          $rootScope.$broadcast('user');
+          console.log("data after submit", data);
           if(data.success) {
+
             vm.alert = data.message;
             $state.go('dashboard')
           } else {

@@ -6,7 +6,8 @@
 
   <div class="w3-container w3-center user-card">
     <h3></h3>
-    <img class="img-circle" src="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png" alt="Avatar" >
+    <img class="user-img-circle" ng-click="dashboard.uploadPhoto()" src="{{dashboard.userPhoto}}" >
+    <!-- alt="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png" -->
     <h5>{{dashboard.loggedUsername}}</h5>
     <div> Welcome to Cliq. Lets see what your friends are up to.</div>
     <br>
@@ -14,14 +15,10 @@
 
 </div>
 
-
-
-
-
   <md-list >
 
        <md-list-item class="md-3-line" ng-repeat="friend in dashboard.trueFriend">
-        <img class="friend-img" src="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png" class="">
+        <img class="friend-img" src="{{friend.pic}}" class="">
         <div class="md-list-item-text">
           <h3 class="friend-name">{{friend.username}}</h3>
         </div>
@@ -31,8 +28,8 @@
 
 
 
-
-<div slide-toggle="#pendingFriends">Friends?</div>
+<button class="w3-btn-block w3-blue" slide-toggle="#pendingFriends">+ Connect</button>
+<!-- <div >Friends?</div> -->
   <div id="pendingFriends" class="slideable">
     <md-list-item  class="md-3-line"
     ng-repeat="friend in dashboard.falseFriend
@@ -193,7 +190,7 @@
   <div ng-repeat="msg in dashboard.msgList| orderBy: timestamp :true">
     <div class="chat-bubble" layout="row" layout-wrap >
       <div flex="10" class="chat-bubble-img">
-      <img  flex="100"  src="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png">
+      <img  flex="100"  src="{{msg.pic}}">
       </div>
       <div flex="90" class="chat-bubble-text" >{{msg.username}}
            : {{msg.timestamp | date:'MM/dd/yyyy @ h:mma'}} : {{msg.text}}

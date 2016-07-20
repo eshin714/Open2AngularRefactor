@@ -32,6 +32,7 @@
     };
 
     function openSignup(ev) {
+      console.log("opening signup")
       $mdDialog.show({
          targetEvent: ev,
          templateUrl: 'app/signup/signup.html',

@@ -1,7 +1,7 @@
 <!-- NAVBAR
 ================================================== -->
   <body>
-    <md-toolbar class="md-hue-1">
+    <md-toolbar class="md-hue-5">
       <div class="md-toolbar-tools">
         <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
           <md-icon></md-icon>
@@ -10,7 +10,7 @@
           Cliq
         </h2>
         <span flex></span>
-        <md-button class="md-primary" aria-label="Favorite">
+        <md-button class="md-primary" aria-label="Favorite" ng-click= "landing.openLogin(ev)">
           login
         </md-button>
         <md-button class="md-icon-button" aria-label="More">
@@ -31,7 +31,7 @@
             <div class="carousel-caption">
               <h1>Cliq</h1>
               <p>Connect with friends and create new events and activities with your clique. </p><p>All at the cliq of a button.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+              <p><a class="btn btn-lg btn-color" ng-click="landing.openSignup(ev)" role="button">Sign up today</a></p>
             </div>
           </div>
         </div>
@@ -52,19 +52,19 @@
                   <img class="img-circle" src="" width="160" height="160">
           <h2>Create</h2>
           <p>Create a new event and automatically invite all of your close friends to the event!</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
           <img class="img-circle" src="" width="160" height="160">
           <h2>Chat</h2>
           <p>Talk about what your going to do, where your going to and how much fun its going to be!</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-          <img class="img-circle" src="" width="160" height="160">
+          <img class="img-circle" src="http://www.themonastery.org/blog/wp-content/uploads/2016/02/superbowlparty21.jpg" width="160" height="160">
           <h2>Meet</h2>
           <p>Meet up with your friends and go crazy! You've planned and talked about it, now its time to do it!</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+
         </div><!-- /.col-lg-4 -->
       </div><!-- row -->
 

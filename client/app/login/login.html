@@ -1,13 +1,13 @@
-<md-dialog style="width:400px; height: 400px">
+<md-dialog style="width:400px; height:500px">
    <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Login</h2>
         <span flex></span>
-        <md-button class="md-icon-button" ng-click="cancel()">X</md-button>
+
       </div>
     </md-toolbar>
-
-<form>
+<div style="padding-top:30px; text-align: center;">Welcome Back!</div>
+<form style="padding-left:25px;padding-right:25px; padding-top: 85px">
 
   <md-input-container>
     <label>Username</label>
@@ -19,14 +19,16 @@
     <input type='password' ng-model='login.password'>
   </md-input-container>
 
-  <div>
+  <div style="height:50px; width:300px">
     {{login.alert}}
   </div>
 
-
-<md-dialog-actions layout="row">
-  <md-button ng-click='login.submit(login.username, login.password)'>Submit</md-button>
+<md-dialog-actions style="padding-top: 30px; padding-bottom:30px;" layout="row">
+<md-button class="md-raised md-primary" ng-click=''>Cancel</md-button>
+  <md-button class="md-raised md-primary" ng-click='login.submit(login.username, login.password)'>Submit</md-button>
 </md-dialog-actions>
 
 </form>
+
+
 </md-dialog>

@@ -37,7 +37,7 @@ router.post('/', function(req, res) {
 router.post('/login', function(req, res) {
   var userObj = req.body;
 
-  db.query('SELECT Users.username, Users.password, Users.id FROM Users WHERE Users.username =  ?', [userObj.username],
+  db.query('SELECT Users.username, Users.password, Users.id, Users.pic FROM Users WHERE Users.username =  ?', [userObj.username],
     function(err, results, fields) {
       if(err) {
         console.log("Users does not exist or Password is incorrect");
@@ -56,7 +56,8 @@ router.post('/login', function(req, res) {
             userdata: {
               username: user["username"],
               id: user["id"],
-              token: tokens.createToken({user: userObj.username})
+              token: tokens.createToken({user: userObj.username}),
+              pic: user["pic"]
             }
           })
         } else {

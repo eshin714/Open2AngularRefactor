@@ -51,8 +51,6 @@
     function login(userObj) {
       return $http.post('/auth/login',userObj)
         .then(function(data) {
-          console.log("login data", data)
-          console.log("This is data.success", data.data.success)
           if(data.data.success) {
             var dataObj = data.data.userdata;
             $localStorage.userdata = dataObj;

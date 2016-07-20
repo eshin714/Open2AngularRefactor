@@ -12,7 +12,8 @@
       requestFriend: requestFriend,
       createEvent: createEvent,
       acceptFriend: acceptFriend,
-      acceptEvent: acceptEvent
+      acceptEvent: acceptEvent,
+      imageUrl: imageUrl
     };
     return service;
 
@@ -56,6 +57,13 @@
         .then(function(data) {
           return data.data;
         });
+    };
+
+    function imageUrl(userObj) {
+      return $http.post('/dashboard/image', userObj)
+        .then(function(data) {
+          return data.data;
+        })
     };
 
   }
