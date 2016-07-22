@@ -12,7 +12,9 @@
       requestFriend: requestFriend,
       createEvent: createEvent,
       acceptFriend: acceptFriend,
+      deleteFriend: deleteFriend,
       acceptEvent: acceptEvent,
+      leaveEvent: leaveEvent,
       imageUrl: imageUrl
     };
     return service;
@@ -52,11 +54,25 @@
         });
     };
 
+    function deleteFriend(eventObj) {
+      return $http.post('/dashboard/deleteFriend', eventObj)
+        .then(function(data) {
+          return data.data;
+        })
+    };
+
     function acceptEvent(eventObj) {
       return $http.post('/dashboard/acceptEvent', eventObj)
         .then(function(data) {
           return data.data;
         });
+    };
+
+    function leaveEvent(eventObj) {
+      return $http.post('/dashboard/leaveEvent', eventObj)
+        .then(function(data) {
+          return data.data;
+        })
     };
 
     function imageUrl(userObj) {

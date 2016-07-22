@@ -16,6 +16,7 @@ io.on('connection',function(socket){
       addMsg(data, socket);
     });
 
+
 });
 
 function showMsg(data, socket) {

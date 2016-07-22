@@ -15,17 +15,21 @@
     vm.showSearch = showSearch;
     vm.sendRequest = sendRequest;
     vm.addEvent = addEvent;
+    vm.deleteEvent = deleteEvent;
     vm.addFriend = addFriend;
+    vm.deleteFriend = deleteFriend;
     vm.attendEvent = attendEvent;
     vm.trueFriend = [];
     vm.falseFriend = [];
     vm.enterChat = enterChat;
     vm.sendMsg = sendMsg;
     vm.logout = logout;
-    vm.bubbleFilter = bubbleFilter;
+    // vm.bubbleFilter = bubbleFilter;
     vm.msgList = [];
     vm.userPhoto = ""+$localStorage.userdata.pic;
-    console.log(vm.userPhoto)
+    vm.pendingList = true;
+    vm.messageInput = false;
+    vm.deleteButton = false;
 
     function logout() {
       auth.logout();
@@ -108,18 +112,22 @@
         clickOutsideToClose:true,
         fullscreen: useFullScreen
       })
+
     };
 
     function findFriend(friend) {
       var friendObj = {};
-      friendObj.username = friend;
-      console.log("finding friend",friendObj)
-      dashboard.searchFriend(friendObj)
-        .then(function(data) {
-          console.log(data);
-          vm.foundFriends = data.data;
-          console.log('found friends', vm.foundFriends)
-        })
+      if(friend === vm.loggedUsername) {
+        console.log("cannot search for yourself!")
+      } else {
+        friendObj.username = friend;
+        dashboard.searchFriend(friendObj)
+          .then(function(data) {
+            console.log("found friends", data)
+            vm.foundFriends = data.data;
+            vm.foundFriendMsg = data.message;
+          })
+      }
     };
 
     function sendRequest(friendId) {
@@ -140,9 +148,37 @@
       console.log("add friend...", friendObj)
       dashboard.acceptFriend(friendObj)
         .then(function(data) {
-          console.log("Friend Accepted",data)
+          console.log("Friend Accepted",data);
+          $mdDialog.hide()
         })
     };
+
+    function deleteFriend(userId, friendId, ev) {
+      var confirm = $mdDialog.confirm()
+          .title('Are you sure you want to Unfriend?')
+          .targetEvent(ev)
+          .ok('Un-Friend')
+          .cancel('Cancel');
+
+        $mdDialog.show(confirm).then(function() {
+          var friendObj = {};
+          friendObj.userId = vm.loggedUserId;
+            if(userId === vm.loggedUserId) {
+              friendObj.friendId = friendId;
+            } else {
+              friendObj.friendId = userId;
+            }
+          console.log("delete friend...", friendObj)
+          dashboard.deleteFriend(friendObj)
+            .then(function(data) {
+            console.log("Friend Deleted",data)
+          })
+        }, function() {
+          console.log("Canceled Friend Delete")
+        });
+
+
+    }
 
     function addEvent(event, friends) {
       var eventObj = {};
@@ -165,6 +201,26 @@
         })
     };
 
+    function deleteEvent(eventId, ev) {
+      var confirm = $mdDialog.confirm()
+        .title('Are you sure you want to Leave?')
+        .targetEvent(ev)
+        .ok('Leave Event')
+        .cancel('Cancel');
+
+      $mdDialog.show(confirm).then(function() {
+        var eventObj = {};
+        eventObj.userId = vm.loggedUserId;
+        eventObj.eventId = eventId;
+        dashboard.leaveEvent(eventObj)
+          .then(function(data) {
+            console.log("Left event ", data)
+          })
+      }, function() {
+        console.log("Canceled Leave Event")
+      });
+    }
+
     function enterChat(eventId, eventName) {
       var eventObj = {};
       eventObj.eventId = eventId;
@@ -175,7 +231,7 @@
           vm.currentEventId = eventId;
           vm.chatName = eventName;
           vm.msgList = data.data;
-
+          vm.messageInput = true;
         })
 
       function request(eventObj) {
@@ -187,6 +243,20 @@
         return deferred.promise;
       }
     };
+
+    // function leaveChat(eventId, eventName) {
+    //         var eventObj = {};
+    //   eventObj.eventId = eventId;
+    //   eventObj.eventName = eventName;
+    //   eventObj.userId = vm.loggedUserId;
+    //   request(eventObj)
+    //     .then(function(data) {
+    //       vm.currentEventId = eventId;
+    //       vm.chatName = eventName;
+    //       vm.msgList = data.data;
+    //       vm.messageInput = true;
+    //     })
+    // };
 
     function sendMsg(msg) {
       var msgObj = {};
@@ -205,15 +275,15 @@
       vm.msgList.push(data[0])
     })
 
-    function bubbleFilter(username) {
-      if(username === vm.loggedUsername) {
-        vm.flexText = "90";
-        return '10';
-      } else {
-        vm.flexText = "10";
-        return '90';
-      }
-    }
+    // function bubbleFilter(username) {
+    //   if(username === vm.loggedUsername) {
+    //     vm.flexText = "90";
+    //     return '10';
+    //   } else {
+    //     vm.flexText = "10";
+    //     return '90';
+    //   }
+    // }
 
     function uploadPhoto() {
       filepickerService.pick({mimetype: 'image/*'}, function(Blob) {

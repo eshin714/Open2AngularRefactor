@@ -33,5 +33,14 @@
       });
     }
 
+    // function request(eventName, eventObj) {
+    //   var deferred = $q.defer();
+    //   chat.emit(eventName, eventObj)
+    //   chat.on('status', function(d) {
+    //     deferred.resolve(d);
+    //   });
+    //   return deferred.promise;
+    // }
+
   }
 })();

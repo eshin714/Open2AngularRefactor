@@ -20,12 +20,10 @@ router.post('/', function(req, res) {
 router.post('/search', function(req, res) {
   var friendName = req.body.username;
   db.query('SELECT * FROM Users WHERE username = ?', [friendName], function(err, results) {
-      if(err) {
-        console.log('no user found', err)
+      if(results.length === 0) {
         res.json({
         success: false,
-        message: "No User Found",
-        data: results
+        message: "No User Found.",
         })
       } else {
         res.json({
@@ -49,7 +47,7 @@ router.post('/request', function(req, res) {
             res.json({
               success: true,
               message: "Friend Request Sent!",
-              data: results
+              data: results,
             })
           }
       });
@@ -67,23 +65,52 @@ router.post('/request', function(req, res) {
 router.post('/acceptFriend', function(req, res) {
   var userObj = req.body;
   db.query('UPDATE Friends SET Friends.accept = 1 WHERE Friends.user_id = '+ userObj.friendId +' AND Friends.friend_id = '+ userObj.userId+';',
-  function(err, results, fields) {
-    if(err) {
-      res.json({
-        success: false,
-        message: "Accept friend failed."
-      })
-    } else {
-      res.json({
-        success: true,
-        message: "Friend accepted!",
-        data: results
-      })
-    }
-  });
+    function(err, results, fields) {
+      if(err) {
+        res.json({
+          success: false,
+          message: "Accept friend failed."
+        })
+      } else {
+        res.json({
+          success: true,
+          message: "Friend accepted!",
+          data: results
+        })
+      }
+    });
 })
 
-
+router.post('/deleteFriend', function(req, res) {
+  var userObj = req.body;
+  console.log("This is userObj",userObj)
+  db.query('DELETE FROM Friends WHERE (Friends.user_id = '+userObj.userId+' AND Friends.friend_id = '+userObj.friendId+') OR (Friends.user_id = '+userObj.friendId+' AND Friends.friend_id = '+userObj.userId+');',
+    function(err, results) {
+      if(err) {
+        console.log("Error SQL", err)
+        res.json({
+          success: false,
+          message: "Delete friend failed."
+        })
+      } else {
+        db.query('DELETE FROM `EventUsers` WHERE EventUsers.user_id = '+userObj.userId+' AND EventUsers.event_id = ANY (SELECT Events.id FROM `Events` WHERE Events.event_creator = '+userObj.friendId+');',
+          function(err, results1) {
+            if(err) {
+        console.log("Error SQL", err)
+              res.json({
+                success: false,
+                message: "Event Deleted Failed."
+              })
+            } else {
+              res.json({
+                success: true,
+                message: "Friend and Events Deleted"
+              })
+            }
+          })
+      }
+    })
+})
 
 //add event
 
@@ -119,6 +146,24 @@ router.post('/acceptEvent', function(req, res) {
   });
 })
 
+router.post('/leaveEvent', function(req, res) {
+  var eventObj = req.body;
+  db.query('DELETE FROM `EventUsers` WHERE EventUsers.event_id = '+eventObj.eventId+' AND EventUsers.user_id = '+eventObj.userId+';',
+  function(err, results) {
+    if(err) {
+      console.log(err);
+      res.json({
+        success: false,
+        message: "Event Leave Failed."
+      })
+    } else {
+      res.json({
+        success: true,
+        message: "Leave Event Success."
+      })
+    }
+  })
+})
 
 //create events
 

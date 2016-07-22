@@ -1,27 +1,48 @@
-<md-dialog>
+<md-dialog >
    <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Search</h2>
+          <span flex></span>
+<!--         <md-button class="md-icon-button" ng-click="dashboard.cancel()">
+          X
+        </md-button> -->
       </div>
     </md-toolbar>
+    <md-content style="height: 300px; width: 400px; padding: 40px">
 
 
+  <md-input-container >
+    <input type='text' ng-model='dashboard.friendName' placeholder="Search for Friend">
 
-  <md-input-container>
-    <input type='text' ng-model='dashboard.friendName' placeholder="Search for Friend"><br>
   </md-input-container>
-  <md-button ng-click="dashboard.findFriend(dashboard.friendName)">
+      <md-button class="md-secondary" ng-click="dashboard.findFriend(dashboard.friendName)">
     submit
   </md-button>
+          <md-divider inset=""></md-divider>
+          <div>{{dashboard.foundFriendMsg}}</div>
+       <md-list-item class="md-3-line" ng-repeat="friend in dashboard.foundFriends">
 
-    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.foundFriends">
-      <img class="md-avatar">
+        <img class="friend-img" src="{{friend.pic}}" class="">
+        <div class="md-list-item-text">
+          <h3 class="friend-name">{{friend.username}}</h3>
+        </div>
+        <div class="md-list-item-text"><md-button class="md-primary md-raised"  ng-click="dashboard.sendRequest(friend.id)">ADD</md-button></div>
+        <md-divider inset=""></md-divider>
+      </md-list-item>
+
+<!--     <md-list-item class="md-3-line" ng-repeat="friend in dashboard.foundFriends">
+
+      <img class="md-avatar" src={{friend.pic}}>
       <div class="md-list-item-text">
         <h3>{{friend.username}}</h3>
       </div>
       <md-button ng-click="dashboard.sendRequest(friend.id)">Add</md-button>
       <md-divider inset=""></md-divider>
-    </md-list-item>
+    </md-list-item> -->
 
 
+</md-content>
 </md-dialog>
+
+
+

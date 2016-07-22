@@ -12,13 +12,21 @@
 
  font-family: Raleway;
 }
+.circle {
 
-.user-img-circle {
   border-radius: 50%;
-  width: 75%;
+  padding: 7px;
+  height: 250px;
+  width: 250px;
+  margin-top: 10px;
+}
+.user-img-circle {
+  height: 200px;
+  max-height: 180px;
+  max-width: 180px;
 }
 
-.img-circle {
+.featurette-img-circle {
   height: 250px;
   width: 250px;
 }
@@ -36,9 +44,13 @@ h2 {
 }
 h3 {
   font-family: Lobster;
+
 }
 h4 {
-  font-family: Lobster;
+  font-family: Raleway;
+  font-size: 60px;
+  margin-left:10px;
+
 }
 
 
@@ -47,7 +59,13 @@ h4 {
   text-align: right;
   margin-top: 20px;
 }
-
+.chat-friend-img {
+  border-radius: 50%;
+  padding: 7px;
+  height: 60px;
+  width: 60px;
+  margin-top: 2px;
+}
 .friend-img {
   border-radius: 50%;
   padding: 7px;
@@ -64,11 +82,10 @@ h4 {
   max-height: 350px;
   max-width: 350px;
   align: center;
-  background-color: blue;
 }
 
-#friend-in-events1 {float:left;margin-right:10px;}
-#friend-in-events2 {float:left;margin-left:10px;}
+#friend-in-events1 {float:left;margin-right:10px; margin-left:10px;}
+#friend-in-events2 {float:left;margin-left:10px;margin-right:10px;}
 
 .sidenav {
   position: fixed;
@@ -98,6 +115,7 @@ section {
 }
 .inner-text {
   padding: 15px;
+
 }
 .btn-color {
   color: white;
@@ -121,12 +139,13 @@ a:focus {
   padding: 10px;
   background-color: grey;
 
-      background-color: #F2F2F2;
+    background-color: #F2F2F2;
     border-radius: 5px;
     box-shadow: 0 0 6px #B2B2B2;
 
 }
 .chat-bubble-text {
+
   padding: 10px;
 }
 .chat-bubble-img {

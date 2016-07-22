@@ -1,91 +1,90 @@
 <div ng-init="dashboard.populateFriendsEvents()">
 
-<div class="sidenav w3-card-4" >
-
-<div class="w3-card-2">
-
-  <div class="w3-container w3-center user-card">
-    <h3></h3>
-    <img class="user-img-circle" ng-click="dashboard.uploadPhoto()" src="{{dashboard.userPhoto}}" >
-    <!-- alt="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png" -->
-    <h5>{{dashboard.loggedUsername}}</h5>
-    <div> Welcome to Cliq. Lets see what your friends are up to.</div>
-    <br>
+<!-- sidenav -->
+<div class="sidenav w3-card-4">
+<!-- userprofile card -->
+  <div class="w3-card-2">
+    <div class="w3-container w3-center user-card">
+      <h3>{{dashboard.loggedUsername}}</h3>
+        <div style="width:100%">
+          <img  class="user-img-circle img-circle" style="width:100%" ng-click="dashboard.uploadPhoto()" src="{{dashboard.userPhoto}}">
+        </div>
+        <br>
+        <div>Lets see what your friends are up to.</div>
+        <br>
+    </div>
   </div>
-
-</div>
-
-  <md-list >
-
-       <md-list-item class="md-3-line" ng-repeat="friend in dashboard.trueFriend">
-        <img class="friend-img" src="{{friend.pic}}" class="">
+<!-- Friend List -->
+  <md-list>
+    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.trueFriend">
+     <img class="friend-img" src="{{friend.pic}}" class="">
         <div class="md-list-item-text">
           <h3 class="friend-name">{{friend.username}}</h3>
         </div>
-        <md-divider inset=""></md-divider>
-      </md-list-item>
-
-
-
-
-<button class="w3-btn-block w3-blue" slide-toggle="#pendingFriends">+ Connect</button>
-<!-- <div >Friends?</div> -->
-  <div id="pendingFriends" class="slideable">
-    <md-list-item  class="md-3-line"
-    ng-repeat="friend in dashboard.falseFriend
-    | filter: { friend_id: dashboard.loggedUserId}">
-      <img class="friend-img" src="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png" class="">
-        <div class="md-list-item-text">
-          <h3>{{friend.username}} </h3>
-          <span><h4>Wants to be your friend!</h4>
+        <!-- delete Friend -->
+        <div ng-show="dashboard.deleteButton"class="md-list-item-text">
+          <md-button ng-click="dashboard.deleteFriend(friend.user_id, friend.friend_id, $event)">X</md-button>
         </div>
-        <div class="button-align">
-                  <md-button class="md-primary md-raised" ng-click="dashboard.addFriend(friend.user_id, dashboard.loggedUserId)">add friend</md-button>
-                  </div>
-        <md-divider inset=""></md-divider>
-    </md-list-item>
+    <md-divider inset=""></md-divider>
+  </md-list-item>
 
-    <md-list-item class="md-3-line" ng-repeat="friend in dashboard.falseFriend | filter: { user_id: dashboard.loggedUserId}">
-      <img class="friend-img" src="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png" class="">
+  <!-- Connect Button -->
+  <button class="w3-btn-block w3-blue" ng-click="dashboard.pendingList = !dashboard.pendingList">
+    <span ng-show="!dashboard.pendingList">+</span>
+      <span>Connect</span>
+    <span ng-show="dashboard.pendingList">-</span>
+  </button>
+
+<!-- Friend Requested or Friend Pending -->
+<!-- friend requested -->
+    <div ng-show="dashboard.pendingList">
+      <md-list-item  class="md-3-line" ng-repeat="friend in dashboard.falseFriend
+      | filter: { friend_id: dashboard.loggedUserId}">
+        <img class="friend-img" src="{{friend.pic}}">
         <div class="md-list-item-text">
           <h3>{{friend.username}}</h3>
+          <span><p>Friend?</p></span>
+        </div>
+        <div class="button-align">
+          <md-button class="md-fab md-mini md-primary md-button md-ink-ripple md-warn" type="button" ng-transclude="" ng-click="dashboard.deleteFriend(friend.user_id, friend.friend_id, $event)"> -
+          </md-button>
+        </div>
+        <div class="button-align">
+          <md-button ng-click="dashboard.addFriend(friend.user_id, dashboard.loggedUserId)" class="md-fab md-mini md-primary md-button md-ink-ripple" type="button" ng-transclude=""> +
+          </md-button>
+        </div>
+      <md-divider inset=""></md-divider>
+      </md-list-item>
+  <!-- friend pending -->
+      <md-list-item class="md-3-line" ng-repeat="friend in dashboard.falseFriend | filter: { user_id: dashboard.loggedUserId}">
+        <img class="friend-img" src="{{friend.pic}}">
+        <div class="md-list-item-text">
+          <h3>{{friend.username}}</h3>
+          <span><p>Requested.</p></span>
+        </div>
+        <div class="button-align" ng-show="dashboard.deleteButton">
+          <md-button class="md-fab md-mini md-primary md-button md-ink-ripple md-warn" type="button" ng-transclude="" ng-click="dashboard.deleteFriend(friend.user_id, friend.friend_id, $event)"> -
+          </md-button>
         </div>
         <md-divider inset=""></md-divider>
-    </md-list-item>
-    <md-list-item layout-fill>
-    </md-list-item>
-  </div>
-
-
-
-
-<!-- <div class="w3-container">
-  <p>1 new friend request</p>
-  <hr>
-  <img src="img_avatar3.png" alt="Avatar" class="w3-left w3-circle">
-  <p>President/CEO at Mighty Schools...</p>
-</div>
-
-<button class="w3-btn-block w3-dark-grey">+ Connect</button>
- -->
-
-
+      </md-list-item>
+      <button class="w3-btn-block w3-red" ng-click="dashboard.deleteButton = !dashboard.deleteButton;">Delete Friend</button>
+    </div>
   </md-list>
-
 </div>
 
+<!-- Main Page -->
 <section>
-
-
-  <toolbar >
+<!-- title toolbar -->
+  <toolbar>
     <md-toolbar class="md-hue-2 w3-card-4">
       <div class="md-toolbar-tools">
         <md-button class="md-icon-button">
           <md-icon md-svg-icon="" ng-click="dashboard.openNav()">3</md-icon>
         </md-button>
-        <h2>
-          <span>Welcome to Cliq!</span>
-        </h2>
+        <h1 style="font-size: 30px">
+          Cliq
+        </h1>
         <span flex=""></span>
           <md-button class="md-primary md-raised"
           ng-click="dashboard.showSearch($event)">
@@ -97,136 +96,122 @@
       </div>
     </md-toolbar>
   </toolbar>
-
-<div class="col-md-12  event-card">
-<div class="card w3-card-4">
-  <md-toolbar class="w3-card-4">
-    <div class="md-toolbar-tools">
-      <h3>Add Event</h3>
+<!-- add Event Card -->
+  <div class="col-md-12  event-card">
+    <div class="card w3-card-4">
+      <md-toolbar class="w3-card-4">
+        <div class="md-toolbar-tools">
+          <h3>Add Event</h3>
+        </div>
+      </md-toolbar>
+      <md-content class="w3-card-4 inner-text">
+        <md-input-container class="col-md-12">
+          <span>
+            <input type='text' ng-model='dashboard.eventName' placeholder="What Do YOU want to do?">
+            <md-button class="md-primary md-raised"ng-click="dashboard.addEvent(dashboard.eventName, dashboard.friendsList)">
+            send to friends
+            </md-button>
+          </span>
+        </md-input-container>
+      </md-content>
     </div>
-  </md-toolbar>
-  <md-content class="w3-card-4 inner-text">
-    <md-input-container class="col-md-12">
-    <span>
-      <input type='text' ng-model='dashboard.eventName' placeholder="What Do YOU want to do?">
-      <md-button class="md-primary md-raised"ng-click="dashboard.addEvent(dashboard.eventName, dashboard.friendsList)">
-      send to friends
-      </md-button>
-    </span>
-    </md-input-container>
-  </md-content>
-</div>
-</div>
+  </div>
 </section>
 
-<!-- events -->
+<!-- Current Events Card -->
 <section>
-<div class="col-md-6 event-card">
-
-  <md-toolbar class="md-theme-light w3-card-4">
-    <h2 class="md-toolbar-tools">
-      <span>Events</span>
-    </h2>
-  </md-toolbar>
-
-  <md-content class="w3-card-4">
-
-
-
-
-
-
-    <md-list>
-      <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventList">
+  <div class="col-md-6 event-card">
+    <md-toolbar class="w3-card-4">
+      <div class="md-toolbar-tools">
+        <h3>Events</h3>
+      </div>
+    </md-toolbar>
+    <md-content class="w3-card-4">
+      <md-list>
+        <div ng-show="!dashboard.eventList.length" class="w3-card-4 inner-text  chat-card">
+          Start an event or wait for your friends to create one!
+        </div>
+        <md-list-item class="md-3-line" ng-repeat="event in dashboard.eventList">
           <div class="md-list-item-text inner-text">
-            <h3>{{event.event_name}}</h3>
+            <h4 style="font-size: 18px"><strong>{{event.event_name}}</strong></h4>
             <h4>Event Creator: {{event.event_creator_name}}</h4>
-              <div ng-repeat="friends in event.username">
-                <!-- Users has not yet commited to event -->
-                <div id="friend-in-events1" ng-if="event.event_creator !== dashboard.loggedUserId && dashboard.loggedUserId === friends.userId">
+            <div style="width:270px; overflow:visible" flex ng-repeat="friends in event.username">
+              <!-- Users has not yet commited to event -->
+              <div id="friend-in-events1" ng-if="event.event_creator !== dashboard.loggedUserId && dashboard.loggedUserId === friends.userId">
+                <strong> {{friends.username}} </strong>
+              </div>
+              <!-- Friend Not yet committed to event -->
+              <div id="friend-in-events2" ng-if="friends.userId !== dashboard.loggedUserId && friends.userId !== event.event_creator">
+                <div ng-if="friends.accept === 1">
                   <strong> {{friends.username}} </strong>
                 </div>
-                <!-- Friend Not yet committed to event -->
-                <div id="friend-in-events2" ng-if="friends.userId !== dashboard.loggedUserId && friends.userId !== event.event_creator">
-                  <div ng-if="friends.accept === 1">
-                  <strong> {{friends.username}} </strong>
-                  </div>
-                  <div ng-if="friends.accept === 0">
-                    {{friends.username}}
-                  </div>
+                <div ng-if="friends.accept === 0">
+                  {{friends.username}}
                 </div>
-                <!-- Buttons -->
-
+              </div>
+              <!-- Buttons -->
+              <div>
                 <div class="md-secondary" ng-if="friends.userId === dashboard.loggedUserId && friends.accept === 1">
-                  <md-button   ng-click="dashboard.enterChat(event.event_id, event.event_name)" >Enter Chat</md-button>
+                  <md-button class="md-primary md-warn" ng-click="dashboard.deleteEvent(event.event_id)" >
+                    Leave
+                  </md-button>
+                  <md-button class="md-raised md-primary" ng-click="dashboard.enterChat(event.event_id, event.event_name)">
+                    Enter Chat
+                  </md-button>
                 </div>
-                <div  class="md-secondary" ng-if="event.event_creator !== dashboard.loggedUserId && dashboard.loggedUserId === friends.userId">
-                  <md-button ng-hide="friends.accept" ng-click="dashboard.attendEvent(friends.userId, event.event_id)" >go to event</md-button>
+                <div class="md-secondary" ng-if="event.event_creator !== dashboard.loggedUserId && dashboard.loggedUserId === friends.userId">
+                  <md-button ng-hide="friends.accept" ng-click="dashboard.attendEvent(friends.userId, event.event_id)">
+                    Going!
+                  </md-button>
                 </div>
+              </div>
             </div>
           </div>
-        <md-divider ng-if="!$last"></md-divider>
-      </md-list-item>
-    </md-list>
-  </md-content>
-</div >
-
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+      </md-list>
+    </md-content>
+  </div >
 
 <!-- chat -->
-<div class="col-md-6 event-card">
-  <md-toolbar class="md-theme-light w3-card-4 ">
-    <h2 class="md-toolbar-tools">
-      <span>{{dashboard.chatName}} Chat</span>
-    </h2>
-  </md-toolbar>
-
-  <md-content class="w3-card-4 inner-text  chat-card">
-  <div>
-        <input type='text' ng-model='dashboard.msg' placeholder="send Message">
-        <button ng-click="dashboard.sendMsg(dashboard.msg)">submit</button>
-  </div>
-
-  <div class="column">
-  <div ng-repeat="msg in dashboard.msgList| orderBy: timestamp :true">
-    <div class="chat-bubble" layout="row" layout-wrap >
-      <div flex="10" class="chat-bubble-img">
-      <img  flex="100"  src="{{msg.pic}}">
+  <div class="col-md-6 event-card">
+    <md-toolbar class="w3-card-4">
+      <div class="md-toolbar-tools">
+        <h3>{{dashboard.chatName}} Chat</h3>
       </div>
-      <div flex="90" class="chat-bubble-text" >{{msg.username}}
-           : {{msg.timestamp | date:'MM/dd/yyyy @ h:mma'}} : {{msg.text}}
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<!--
-
-    <ul class="list-group" ng-repeat="msg in dashboard.msgList| orderBy: timestamp :true">
-      <li class="list-group-item" ng-class="dashboard.bubbleFilter(msg.username)">
-
-
-      </li>
-    </ul>
- -->
-
-
- <!--
-
-      <br>
-
-      <div ng-repeat="msg in dashboard.msgList| orderBy: timestamp :true">
-      <div class="chat-list">
-        <div ng-class="dashboard.bubbleFilter(msg.username)">
-        <img class="chat-img" src="https://cdn0.iconfinder.com/data/icons/thin-users-people/57/thin-191_user_profile_avatar-128.png">
-        {{msg.username}} : {{msg.timestamp | date:'MM/dd/yyyy @ h:mma'}} : {{msg.text}}
+    </md-toolbar>
+    <md-content class="w3-card-4 inner-text  chat-card">
+      <div ng-show="!dashboard.messageInput">Enter a chat to see messages! </div>
+      <div ng-show="dashboard.messageInput" layout layout-align="center" >
+        <div layout="row" flex>
+          <md-input-container flex class="md-icon-float md-block md-title">
+            <input type='text' ng-model='dashboard.msg' placeholder="Send Message">
+          </md-input-container>
+          <div>
+            <md-button class="md-raised" ng-click="dashboard.sendMsg(dashboard.msg)">
+              SEND
+            </md-button>
+          </div>
         </div>
-      </div> -->
+      </div>
 
 
-  </md-content>
+      <div class="column">
+        <div ng-repeat="msg in dashboard.msgList| orderBy: timestamp :true">
+          <div class="chat-bubble" layout="row" >
+            <div flex="10">
+            <img  class="chat-friend-img" src="{{msg.pic}}">
+            </div>
+            <div flex="6"></div>
+            <div flex="80" style="font-size: 18px" class="chat-bubble-text" >
+              {{msg.username}} : {{msg.timestamp | date:'MM/dd/yyyy @ h:mma'}} : {{msg.text}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </md-content>
+  </div>
 
-</div >
 </section>
+
 </div>
