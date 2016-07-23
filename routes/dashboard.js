@@ -78,6 +78,7 @@ router.post('/acceptFriend', function(req, res) {
   var userObj = req.body;
   db.query('UPDATE Friends SET Friends.accept = 1 WHERE Friends.user_id = '+ userObj.friendId +' AND Friends.friend_id = '+ userObj.userId+';',
     function(err, results, fields) {
+      console.log("affected rows", results.insertId)
       if(err) {
         res.json({
           success: false,

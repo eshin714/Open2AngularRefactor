@@ -45,6 +45,7 @@
           var events = data.data[2];
           parseEvents(events)
           parseFriends(friendsArr)
+          console.log("event list", vm.eventList)
         });
     };
 
@@ -102,7 +103,29 @@
       friendObj.friendId = friendId;
       dashboard.acceptFriend(friendObj)
         .then(function(data) {
-          console.log("add Friend Data", data)
+          console.log("False Friends", vm.falseFriend);
+          console.log("add Friend Data", data);
+          vm.falseFriend.forEach(function(obj, index) {
+            if(obj.friend_id === friendId && obj.user_id === userId) {
+              vm.falseFriend.splice(index, 1);
+              vm.trueFriend.push({
+                accept : 1,
+                friend_id : obj.friend_id,
+                pic : obj.pic,
+                user_id :  obj.user_id,
+                username: obj.username
+              })
+            } else if (obj.friend_id === userId && obj.user_id === friendId) {
+              vm.falseFriend.splice(index, 1);
+              vm.trueFriend.push({
+                accept : 1,
+                friend_id : obj.friend_id,
+                pic : obj.pic,
+                user_id :  obj.user_id,
+                username: obj.username
+              })
+            }
+          })
         })
     };
 
@@ -140,6 +163,14 @@
                 }
               }
               vm.deleteButton = false;
+              // console.log("event list ", vm.eventList)
+              vm.eventList.forEach(function(obj, index) {
+                if(obj.event_creator === friendObj.friendId) {
+                  console.log("splicing",vm.eventList[index])
+                  vm.eventList.splice(index, 1);
+                }
+              })
+
             })
         }, function() {
           console.log("Canceled Friend Delete")
@@ -156,6 +187,7 @@
       dashboard.createEvent(eventObj)
         .then(function(data) {
           parseEvents(data.data);
+          vm.eventName = "";
         })
     };
 
@@ -165,7 +197,17 @@
       eventObj.eventId = eventId;
       dashboard.acceptEvent(eventObj)
         .then(function(data) {
-          console.log("attending event ", data)
+          vm.eventList.forEach(function(obj, index) {
+            if(obj.event_id === eventId) {
+              var updateEvent = obj;
+              updateEvent.username.forEach(function(userObj) {
+                if(userObj.userId === userId) {
+                  userObj.accept = 1;
+                }
+              });
+              vm.eventList[index] = updateEvent;
+            }
+          })
         })
     };
 
@@ -221,7 +263,9 @@
       msgObj.eventId = vm.currentEventId;
       msgObj.userId = vm.loggedUserId;
       msgObj.text = msg;
-      chat.emit("sendMsg", msgObj)
+      vm.msg = "";
+      chat.emit("sendMsg", msgObj);
+
     };
 
     chat.on('sentMsg', function(data) {
