@@ -40,14 +40,26 @@ router.post('/request', function(req, res) {
   db.query('SELECT * FROM Friends WHERE (user_id = '+ friendObj.userId +' AND friend_id = ' + friendObj.friendId +') OR (user_id = '+ friendObj.friendId +' AND friend_id = ' + friendObj.userId +');', function(err, results) {
     if(results.length === 0) {
       db.query('INSERT INTO Friends (`user_id`, `friend_id`) VALUES ('+friendObj.userId +','+friendObj.friendId+')',
-        function (err, results, fields) {
+        function (err, results1, fields) {
           if (err) {
             throw err;
           } else {
-            res.json({
-              success: true,
-              message: "Friend Request Sent!",
-              data: results,
+            db.query('SELECT Users.username, Users.pic, Friends.user_id, Friends.friend_id, Friends.accept FROM Friends INNER JOIN Users ON Friends.friend_id = Users.id WHERE Friends.friend_id = '+ friendObj.friendId +' AND Friends.user_id ='+friendObj.userId+';',
+            function(err, results2) {
+              if(err) {
+                console.log("error ", err);
+                res.json({
+                  success: false,
+                  message: "Row return failed."
+                });
+              } else {
+                res.json({
+                success: true,
+                message: "Friend Request Sent!",
+                data: results1,
+                rowData: results2
+                })
+              }
             })
           }
       });
@@ -206,12 +218,23 @@ router.post('/createEvent', function(req, res) {
                       message: "Chat create failed"
                     })
                   } else {
-                    res.json({
-                      success: true,
-                      message: "Added Friends to Events!",
-                      eventData: results2,
-                      chatData: results3
-                    });
+                    db.query('SELECT EventUsers.event_id, Events.event_name, Events.event_creator, Events.date_created, EventUsers.accept, EventUsers.user_id, Users.username FROM `Events` INNER JOIN EventUsers ON Events.id = EventUsers.event_id INNER JOIN Users ON EventUsers.user_id = Users.id WHERE Events.id = '+results.insertId+';',
+                      function(err, results4) {
+                        if(err) {
+                          console.log(err);
+                          res.json({
+                            success: false,
+                            message: "event return failed"
+                          })
+                        } else {
+                          res.json({
+                            success: true,
+                            message: "Added Friends to Events!",
+                            data: results4
+                          });
+                        }
+                      })
+
                   }
               })
             }
@@ -236,7 +259,7 @@ router.post('/image', function(req, res) {
         })
       } else {
         console.log("success1", results)
-        results.insertId
+        // results.insertId
         db.query('SELECT Users.pic FROM `Users` WHERE Users.id ='+ userObj.userId +';',
           function(err, results1) {
             if(err) {
@@ -258,7 +281,20 @@ router.post('/image', function(req, res) {
     })
 })
 
-
+// function returnFriendRow(results, success, results1) {
+//   db.query('SELECT * FROM `Users` WHERE Users.id = '+ results.insertId +';',
+//   function(err, results1) {
+//     if(err) {
+//       console.log("error ", err);
+//       res.json({
+//         success: false,
+//         message: "Row return failed."
+//       });
+//     } else {
+//       res.json(success)
+//     }
+//   })
+// }
 
 
 module.exports = router;

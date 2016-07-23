@@ -22,8 +22,9 @@
           <h3 class="friend-name">{{friend.username}}</h3>
         </div>
         <!-- delete Friend -->
-        <div ng-show="dashboard.deleteButton"class="md-list-item-text">
-          <md-button ng-click="dashboard.deleteFriend(friend.user_id, friend.friend_id, $event)">X</md-button>
+        <div ng-show="dashboard.deleteButton" class="button-align">
+          <md-button ng-click="dashboard.deleteFriend(friend.user_id, friend.friend_id, $event)" class="md-fab md-mini md-primary md-button md-ink-ripple md-warn" type="button" ng-transclude=""> -
+          </md-button>
         </div>
     <md-divider inset=""></md-divider>
   </md-list-item>
@@ -68,7 +69,7 @@
         </div>
         <md-divider inset=""></md-divider>
       </md-list-item>
-      <button class="w3-btn-block w3-red" ng-click="dashboard.deleteButton = !dashboard.deleteButton;">Delete Friend</button>
+      <button class="w3-btn-block w3-red" ng-click="dashboard.deleteButton = !dashboard.deleteButton;">Delete Friend or Event</button>
     </div>
   </md-list>
 </div>
@@ -87,7 +88,7 @@
         </h1>
         <span flex=""></span>
           <md-button class="md-primary md-raised"
-          ng-click="dashboard.showSearch($event)">
+          ng-click="dashboard.showSearch($event, dashboard.falseFriend)">
             Search For Friends
           </md-button>
           <md-button ng-click="dashboard.logout()"class="md-primary md-raised">
@@ -152,15 +153,16 @@
               <!-- Buttons -->
               <div>
                 <div class="md-secondary" ng-if="friends.userId === dashboard.loggedUserId && friends.accept === 1">
-                  <md-button class="md-primary md-warn" ng-click="dashboard.deleteEvent(event.event_id)" >
-                    Leave
+                  <md-button ng-show="dashboard.deleteButton" class="md-fab md-mini md-primary md-button md-ink-ripple md-warn" type="button" ng-transclude="" ng-click="dashboard.deleteEvent(event.event_id)"> -
                   </md-button>
-                  <md-button class="md-raised md-primary" ng-click="dashboard.enterChat(event.event_id, event.event_name)">
+                  <md-button ng-show="!dashboard.deleteButton" class="md-raised md-primary" ng-click="dashboard.enterChat(event.event_id, event.event_name)">
                     Enter Chat
                   </md-button>
                 </div>
                 <div class="md-secondary" ng-if="event.event_creator !== dashboard.loggedUserId && dashboard.loggedUserId === friends.userId">
-                  <md-button ng-hide="friends.accept" ng-click="dashboard.attendEvent(friends.userId, event.event_id)">
+                  <md-button ng-show="dashboard.deleteButton" class="md-fab md-mini md-primary md-button md-ink-ripple md-warn" type="button" ng-transclude="" ng-click="dashboard.deleteEvent(event.event_id)"> -
+                  </md-button>
+                  <md-button ng-show="!dashboard.deleteButton" ng-hide="friends.accept" ng-click="dashboard.attendEvent(friends.userId, event.event_id)">
                     Going!
                   </md-button>
                 </div>
