@@ -301,7 +301,6 @@
                   username: value.username,
                   userId: value.user_id,
                   accept: value.accept,
-                  pic: value.pic
                 });
           }
           else {
@@ -309,8 +308,7 @@
                   value.username = [{
                     username: value.username,
                     userId: value.user_id,
-                    accept: value.accept,
-                    pic: value.pic
+                    accept: value.accept
                   }];
               eventOutput.push(value);
           }

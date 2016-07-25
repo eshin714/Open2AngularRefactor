@@ -106,21 +106,49 @@ router.post('/deleteFriend', function(req, res) {
           message: "Delete friend failed."
         })
       } else {
-        db.query('DELETE FROM `EventUsers` WHERE EventUsers.user_id = '+userObj.userId+' AND EventUsers.event_id = ANY (SELECT Events.id FROM `Events` WHERE Events.event_creator = '+userObj.friendId+');',
-          function(err, results1) {
-            if(err) {
-        console.log("Error SQL", err)
-              res.json({
-                success: false,
-                message: "Event Deleted Failed."
-              })
-            } else {
-              res.json({
-                success: true,
-                message: "Friend and Events Deleted"
-              })
-            }
-          })
+
+        var eventObj = req.body;
+        db.query('DELETE FROM `EventUsers` WHERE EventUsers.event_id = '+eventObj.eventId+' AND EventUsers.user_id = '+eventObj.userId+';',
+        function(err, results) {
+          if(err) {
+            console.log(err);
+            res.json({
+              success: false,
+              message: "Event Leave Failed."
+            })
+          } else {
+            db.query('SELECT * FROM `EventUsers` WHERE EventUsers.event_id = '+eventObj.eventId+';', function(err, results) {
+              if(err) {
+                console.log(err);
+                res.json({
+                  success: false,
+                  message: "Event Leave Failed."
+                })
+              } else if (results.length === 0) {
+                console.log("results length is 0", results)
+                db.query('DELETE FROM `Chats` WHERE Chats.event_id = '+eventObj.eventId+'; DELETE FROM `Events` WHERE Events.id = '+eventObj.eventId+';', function(err, results) {
+                  if(err) {
+                    console.log(err);
+                    res.json({
+                      success: false,
+                      message: "Event delete failed",
+                    })
+                  } else {
+                    res.json({
+                      success: true,
+                      message: "Last person left Event. Deleting Event."
+                    })
+                  }
+                })
+              } else {
+                res.json({
+                  success: true,
+                  message: "Left Event. People still in event."
+                })
+              }
+            })
+          }
+        })
       }
     })
 })
@@ -170,9 +198,35 @@ router.post('/leaveEvent', function(req, res) {
         message: "Event Leave Failed."
       })
     } else {
-      res.json({
-        success: true,
-        message: "Leave Event Success."
+      db.query('SELECT * FROM `EventUsers` WHERE EventUsers.event_id = '+eventObj.eventId+';', function(err, results) {
+        if(err) {
+          console.log(err);
+          res.json({
+            success: false,
+            message: "Event Leave Failed."
+          })
+        } else if (results.length === 0) {
+          console.log("results length is 0", results)
+          db.query('DELETE FROM `Chats` WHERE Chats.event_id = '+eventObj.eventId+'; DELETE FROM `Events` WHERE Events.id = '+eventObj.eventId+';', function(err, results) {
+            if(err) {
+              console.log(err);
+              res.json({
+                success: false,
+                message: "Event delete failed",
+              })
+            } else {
+              res.json({
+                success: true,
+                message: "Last person left Event. Deleting Event."
+              })
+            }
+          })
+        } else {
+          res.json({
+            success: true,
+            message: "Left Event. People still in event."
+          })
+        }
       })
     }
   })
@@ -282,20 +336,6 @@ router.post('/image', function(req, res) {
     })
 })
 
-// function returnFriendRow(results, success, results1) {
-//   db.query('SELECT * FROM `Users` WHERE Users.id = '+ results.insertId +';',
-//   function(err, results1) {
-//     if(err) {
-//       console.log("error ", err);
-//       res.json({
-//         success: false,
-//         message: "Row return failed."
-//       });
-//     } else {
-//       res.json(success)
-//     }
-//   })
-// }
 
 
 module.exports = router;
