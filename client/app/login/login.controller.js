@@ -18,7 +18,6 @@
       userObj.password = password;
       auth.login(userObj)
         .then(function(data) {
-          console.log("data after submit", data);
           if(data.success) {
             vm.alert = data.message;
             $state.go('dashboard')

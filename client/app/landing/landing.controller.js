@@ -16,7 +16,6 @@
 
       auth.tokenCheck()
         .then(function(data) {
-          console.log("Data from open Login", data)
           if(data.success) {
             console.log("already Logged in, routing to dashboard");
             $state.go('dashboard');
@@ -32,7 +31,6 @@
     };
 
     function openSignup(ev) {
-      console.log("opening signup")
       $mdDialog.show({
          targetEvent: ev,
          templateUrl: 'app/signup/signup.html',

@@ -23,12 +23,9 @@
         };
         auth.signup(userObj)
           .then(function(data) {
-            console.log("This is data",data);
             if(data.data.success) {
-              console.log("success", data);
               auth.login(userObj)
                 .then(function(data2) {
-                  console.log("data after submit", data2);
                   if(data2.success) {
                     $state.go('dashboard')
                   } else {
@@ -36,7 +33,6 @@
                   }
                 })
             } else {
-              console.log("error", data)
               vm.errors = "Username Exists!"
             }
           });

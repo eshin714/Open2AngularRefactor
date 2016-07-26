@@ -23,13 +23,11 @@
       return $http.get('/auth')
         .then(function(data) {
           var auth = data.data;
-          console.log("data from token check in factory", auth)
           if(auth.success) {
             console.log(auth.message);
             return auth;
           } else {
             console.log(auth.message);
-            // $state.go('landing')
             return auth;
           }
         })
