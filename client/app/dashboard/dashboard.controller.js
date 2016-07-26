@@ -20,23 +20,19 @@
     vm.deleteFriend = deleteFriend;
     vm.attendEvent = attendEvent;
     vm.eventList = [];
+    vm.msgList = [];
     vm.trueFriend = [];
     vm.falseFriend = [];
     vm.enterChat = enterChat;
     vm.sendMsg = sendMsg;
     vm.logout = logout;
-    vm.msgList = [];
-    vm.userPhoto = ""+$localStorage.userdata.pic;
+    vm.userPhoto = $localStorage.userdata.pic;
     vm.pendingList = true;
     vm.messageInput = false;
     vm.deleteButton = false;
-    vm.uploadPhoto = uploadPhoto;
     vm.isActive = false;
+    vm.uploadPhoto = uploadPhoto;
     vm.classSwitch = classSwitch;
-
-    function classSwitch() {
-      vm.isActive = !vm.isActive;
-    }
 
     function logout() {
       auth.logout();
@@ -50,10 +46,8 @@
         .then(function(data) {
           var friendsArr = data.data[0].concat(data.data[1]);
           var events = data.data[2];
-          console.log("This is un altered",data.data[2])
           parseEvents(events)
           parseFriends(friendsArr)
-          console.log("event list", vm.eventList)
         });
     };
 
@@ -111,8 +105,6 @@
       friendObj.friendId = friendId;
       dashboard.acceptFriend(friendObj)
         .then(function(data) {
-          console.log("False Friends", vm.falseFriend);
-          console.log("add Friend Data", data);
           vm.falseFriend.forEach(function(obj, index) {
             if(obj.friend_id === friendId && obj.user_id === userId) {
               vm.falseFriend.splice(index, 1);
@@ -158,22 +150,17 @@
             .then(function(data) {
               for(var i = 0; i < vm.trueFriend.length; i++) {
                 if(vm.trueFriend[i].user_id === friendObj.friendId || vm.trueFriend[i].friend_id === friendObj.friendId) {
-                  console.log("true friend at i", vm.trueFriend[i])
                   vm.trueFriend.splice(i, 1)
                 }
               }
 
               for(var i = 0; i < vm.falseFriend.length; i++) {
                 if(vm.falseFriend[i].user_id === friendObj.friendId || vm.falseFriend[i].friend_id === friendObj.friendId) {
-                  console.log("false friend at i matched", vm.falseFriend[i])
                   vm.falseFriend.splice(i, 1)
                 }
               }
               vm.deleteButton = false;
-              console.log("event list ", data)
               parseEvents(data[1])
-
-
             })
         }, function() {
           console.log("Canceled Friend Delete")
@@ -280,19 +267,20 @@
     })
 
     function uploadPhoto() {
-      console.log("uploading photo click")
       filepickerService.pick({mimetype: 'image/*'}, function(Blob) {
         var userObj = {};
         userObj.profileImg = Blob.url;
         userObj.userId = vm.loggedUserId;
         dashboard.imageUrl(userObj)
         .then(function(data) {
-          console.log("This is phot after upload", data.data[0].pic)
           $localStorage.userdata.pic = ""+data.data[0].pic;
           vm.userPhoto = ""+data.data[0].pic;
-          console.log(data);
         });
       });
+    }
+
+    function classSwitch() {
+      vm.isActive = !vm.isActive;
     }
 
     function parseEvents(events) {
@@ -341,7 +329,6 @@
           vm.trueFriend.push(obj)
         } else {
           vm.falseFriend.push(obj)
-          console.log("populate friends", vm.falseFriend)
         }
       });
     }

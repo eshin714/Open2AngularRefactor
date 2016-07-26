@@ -5,7 +5,7 @@
     .module('open.landing')
     .config(config);
 
-  function config($stateProvider) {
+  function config($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('landing', {
         url: '/landing',
@@ -19,5 +19,6 @@
           requiredLogin: false
         }
       });
+    $urlRouterProvider.otherwise('/landing');
   }
 })();
