@@ -5,11 +5,12 @@
     .module('open.signup')
     .controller('SignupController', SignupController);
 
-  function SignupController(auth, $state) {
+  function SignupController(auth, $state, $mdDialog) {
 
     var vm = this;
 
     vm.submit = submit;
+    vm.cancel = cancel;
 
     function submit(username, email, password, passwordConfirm) {
       var errors = [];
@@ -22,10 +23,19 @@
         };
         auth.signup(userObj)
           .then(function(data) {
-            if(data.data === "success") {
+            console.log("This is data",data);
+            if(data.data.success) {
               console.log("success", data);
-              $state.go('login');
-            } else if(data.data === "error") {
+              auth.login(userObj)
+                .then(function(data2) {
+                  console.log("data after submit", data2);
+                  if(data2.success) {
+                    $state.go('dashboard')
+                  } else {
+                    vm.errors = "Login Failed. Please Login through Login Button.";
+                  }
+                })
+            } else {
               console.log("error", data)
               vm.errors = "Username Exists!"
             }
@@ -33,6 +43,10 @@
       } else {
         console.log("error")
       }
+    }
+
+    function cancel() {
+      $mdDialog.hide();
     }
 
     function validatePassword(password, passwordConfirm, email) {

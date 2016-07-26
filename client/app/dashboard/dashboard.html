@@ -1,13 +1,13 @@
 <div ng-init="dashboard.populateFriendsEvents()">
 
 <!-- sidenav -->
-<div class="sidenav w3-card-4">
+<div  class="sidenav w3-card-4 w3-indigo" ng-class="{'full-sidenav': dashboard.isActive}" >
 <!-- userprofile card -->
-  <div class="w3-card-2">
-    <div class="w3-container w3-center user-card">
-      <h3>{{dashboard.loggedUsername}}</h3>
-        <div style="width:100%">
-          <img  class="user-img-circle img-circle" style="width:100%" ng-click="dashboard.uploadPhoto()" src="{{dashboard.userPhoto}}">
+  <div class="w3-card-2 w3-indigo" >
+    <div class="w3-container w3-center w3-indigo user-card">
+      <h3 style="font-color: white">{{dashboard.loggedUsername}}</h3>
+        <div style="width:100%" ng-click="dashboard.uploadPhoto()">
+          <img  class="user-img-circle img-circle" style="width:100%; font-color: white"  text="Click to Upload Image"src="{{dashboard.userPhoto}}">
         </div>
         <br>
         <div>Lets see what your friends are up to.</div>
@@ -15,7 +15,7 @@
     </div>
   </div>
 <!-- Friend List -->
-  <md-list>
+  <md-list class="w3-white" style="font-color: white;">
     <md-list-item class="md-3-line" ng-repeat="friend in dashboard.trueFriend">
      <img class="friend-img" src="{{friend.pic}}" class="">
         <div class="md-list-item-text">
@@ -30,7 +30,7 @@
   </md-list-item>
 
   <!-- Connect Button -->
-  <button class="w3-btn-block w3-blue" ng-click="dashboard.pendingList = !dashboard.pendingList">
+  <button class="w3-btn-block w3-indigo" ng-click="dashboard.pendingList = !dashboard.pendingList">
     <span ng-show="!dashboard.pendingList">+</span>
       <span>Connect</span>
     <span ng-show="dashboard.pendingList">-</span>
@@ -69,19 +69,20 @@
         </div>
         <md-divider inset=""></md-divider>
       </md-list-item>
-      <button class="w3-btn-block w3-red" ng-click="dashboard.deleteButton = !dashboard.deleteButton;">Delete Friend or Event</button>
+      <button class="w3-btn-block w3-deep-orange" ng-click="dashboard.deleteButton = !dashboard.deleteButton;">Delete Friend or Event</button>
     </div>
   </md-list>
 </div>
 
 <!-- Main Page -->
-<section>
+<section ng-class="{'no-section': dashboard.isActive}">
 <!-- title toolbar -->
   <toolbar>
     <md-toolbar class="md-hue-2 w3-card-4">
       <div class="md-toolbar-tools">
-        <md-button class="md-icon-button">
-          <md-icon md-svg-icon="" ng-click="dashboard.openNav()">3</md-icon>
+        <md-button ng-click="dashboard.classSwitch()" class="md-primary hide-md
+        hide-lg hide-gt-lg hide-xl">
+          switch
         </md-button>
         <h1 style="font-size: 30px">
           Cliq
@@ -108,7 +109,7 @@
       <md-content class="w3-card-4 inner-text">
         <md-input-container class="col-md-12">
           <span>
-            <input type='text' ng-model='dashboard.eventName' placeholder="What Do YOU want to do?">
+            <input type='text' ng-model='dashboard.eventName' placeholder="Send out Event!">
             <md-button class="md-primary md-raised"ng-click="dashboard.addEvent(dashboard.eventName, dashboard.friendsList)">
             send to friends
             </md-button>
@@ -120,7 +121,7 @@
 </section>
 
 <!-- Current Events Card -->
-<section>
+<section ng-class="{'no-section': dashboard.isActive}">
   <div class="col-md-6 event-card">
     <md-toolbar class="w3-card-4">
       <div class="md-toolbar-tools">

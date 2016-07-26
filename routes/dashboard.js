@@ -106,46 +106,21 @@ router.post('/deleteFriend', function(req, res) {
           message: "Delete friend failed."
         })
       } else {
-
+        console.log("Deleted Friends Success.")
         var eventObj = req.body;
-        db.query('DELETE FROM `EventUsers` WHERE EventUsers.event_id = '+eventObj.eventId+' AND EventUsers.user_id = '+eventObj.userId+';',
-        function(err, results) {
+        db.query('DELETE FROM `EventUsers` WHERE EventUsers.user_id = '+userObj.userId+' AND EventUsers.event_id = ANY(SELECT Events.id FROM `Events` WHERE Events.event_creator ='+userObj.friendId+');SELECT EventUsers.event_id, Events.event_name, Events.event_creator, Events.date_created, EventUsers.accept, EventUsers.user_id, Users.username FROM Events INNER JOIN EventUsers ON Events.id = EventUsers.event_id INNER JOIN Users ON EventUsers.user_id = Users.id WHERE Events.id = ANY (SELECT EventUsers.event_id FROM EventUsers WHERE EventUsers.user_id = '+ userObj.userId +');',
+        function(err, results1) {
           if(err) {
             console.log(err);
             res.json({
               success: false,
-              message: "Event Leave Failed."
+              message: "Delete Event Failed."
             })
           } else {
-            db.query('SELECT * FROM `EventUsers` WHERE EventUsers.event_id = '+eventObj.eventId+';', function(err, results) {
-              if(err) {
-                console.log(err);
-                res.json({
-                  success: false,
-                  message: "Event Leave Failed."
-                })
-              } else if (results.length === 0) {
-                console.log("results length is 0", results)
-                db.query('DELETE FROM `Chats` WHERE Chats.event_id = '+eventObj.eventId+'; DELETE FROM `Events` WHERE Events.id = '+eventObj.eventId+';', function(err, results) {
-                  if(err) {
-                    console.log(err);
-                    res.json({
-                      success: false,
-                      message: "Event delete failed",
-                    })
-                  } else {
-                    res.json({
-                      success: true,
-                      message: "Last person left Event. Deleting Event."
-                    })
-                  }
-                })
-              } else {
-                res.json({
-                  success: true,
-                  message: "Left Event. People still in event."
-                })
-              }
+            res.json({
+              success: true,
+              data: results1,
+              message: "Deleted friend and friend created events"
             })
           }
         })
@@ -188,6 +163,7 @@ router.post('/acceptEvent', function(req, res) {
 })
 
 router.post('/leaveEvent', function(req, res) {
+  console.log("Deleted Friends Success.")
   var eventObj = req.body;
   db.query('DELETE FROM `EventUsers` WHERE EventUsers.event_id = '+eventObj.eventId+' AND EventUsers.user_id = '+eventObj.userId+';',
   function(err, results) {
@@ -198,6 +174,7 @@ router.post('/leaveEvent', function(req, res) {
         message: "Event Leave Failed."
       })
     } else {
+      console.log("Deleted all EventsUsers from Event Users");
       db.query('SELECT * FROM `EventUsers` WHERE EventUsers.event_id = '+eventObj.eventId+';', function(err, results) {
         if(err) {
           console.log(err);
@@ -206,7 +183,7 @@ router.post('/leaveEvent', function(req, res) {
             message: "Event Leave Failed."
           })
         } else if (results.length === 0) {
-          console.log("results length is 0", results)
+          console.log("Selecting all from Event Users and There are no more users in that Event", results)
           db.query('DELETE FROM `Chats` WHERE Chats.event_id = '+eventObj.eventId+'; DELETE FROM `Events` WHERE Events.id = '+eventObj.eventId+';', function(err, results) {
             if(err) {
               console.log(err);
@@ -215,6 +192,7 @@ router.post('/leaveEvent', function(req, res) {
                 message: "Event delete failed",
               })
             } else {
+              console.log("Deleted all chat files from Chats.Event_id and Deleted Events from Where Events Id has not matches.")
               res.json({
                 success: true,
                 message: "Last person left Event. Deleting Event."
@@ -222,6 +200,7 @@ router.post('/leaveEvent', function(req, res) {
             }
           })
         } else {
+          console.log("Left EVent. People still in event.")
           res.json({
             success: true,
             message: "Left Event. People still in event."

@@ -82,6 +82,8 @@ h4 {
   max-height: 350px;
   max-width: 350px;
   align: center;
+  background-color: rgba(255,255,255,0.87);
+  font-color: white;
 }
 
 #friend-in-events1 {float:left;margin-right:10px; margin-left:10px;}
@@ -321,7 +323,7 @@ body {
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 900px) {
   .sidenav {
     display: none;
   }
@@ -338,3 +340,16 @@ body {
   #wrap { width:500px; margin:0 auto; border:3px solid red; }
   #body { overflow:auto; }
 }
+
+.full-sidenav {
+
+  display: block;
+  width: 80%;
+  background-color: red;
+  /*display: none;*/
+}
+
+
+.no-section {
+      margin-left: 80%;
+ }

@@ -30,6 +30,13 @@
     vm.pendingList = true;
     vm.messageInput = false;
     vm.deleteButton = false;
+    vm.uploadPhoto = uploadPhoto;
+    vm.isActive = false;
+    vm.classSwitch = classSwitch;
+
+    function classSwitch() {
+      vm.isActive = !vm.isActive;
+    }
 
     function logout() {
       auth.logout();
@@ -43,6 +50,7 @@
         .then(function(data) {
           var friendsArr = data.data[0].concat(data.data[1]);
           var events = data.data[2];
+          console.log("This is un altered",data.data[2])
           parseEvents(events)
           parseFriends(friendsArr)
           console.log("event list", vm.eventList)
@@ -138,7 +146,6 @@
           .cancel('Cancel');
 
         $mdDialog.show(confirm).then(function() {
-
           var friendObj = {};
           friendObj.userId = vm.loggedUserId;
             if(userId === vm.loggedUserId) {
@@ -163,13 +170,9 @@
                 }
               }
               vm.deleteButton = false;
-              // console.log("event list ", vm.eventList)
-              vm.eventList.forEach(function(obj, index) {
-                if(obj.event_creator === friendObj.friendId) {
-                  console.log("splicing",vm.eventList[index])
-                  vm.eventList.splice(index, 1);
-                }
-              })
+              console.log("event list ", data)
+              parseEvents(data[1])
+
 
             })
         }, function() {
@@ -277,12 +280,16 @@
     })
 
     function uploadPhoto() {
+      console.log("uploading photo click")
       filepickerService.pick({mimetype: 'image/*'}, function(Blob) {
         var userObj = {};
         userObj.profileImg = Blob.url;
         userObj.userId = vm.loggedUserId;
         dashboard.imageUrl(userObj)
         .then(function(data) {
+          console.log("This is phot after upload", data.data[0].pic)
+          $localStorage.userdata.pic = ""+data.data[0].pic;
+          vm.userPhoto = ""+data.data[0].pic;
           console.log(data);
         });
       });
