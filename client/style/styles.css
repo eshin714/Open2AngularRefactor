@@ -159,7 +159,7 @@ a:focus {
 }
 
 .chat-card {
-  max-height: 500px;
+  min-height: 100%;
 }
 
 .chat-img {

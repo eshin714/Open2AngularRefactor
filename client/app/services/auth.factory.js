@@ -16,10 +16,6 @@
     return service;
 
     function tokenCheck() {
-      // if($localStorage.userdata) {
-      //   $http.defaults.headers.common.username = $localStorage.userdata.username;
-      //   $http.defaults.headers.common.token = $localStorage.userdata.token;
-      // }
       return $http.get('/auth')
         .then(function(data) {
           var auth = data.data;
@@ -56,8 +52,6 @@
             $http.defaults.headers.common.token = dataObj.token;
             return data.data;
           } else {
-            console.log(data.data.success)
-            console.log(data.data.message)
             return data.data;
           }
         })

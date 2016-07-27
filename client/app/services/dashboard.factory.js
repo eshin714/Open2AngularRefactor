@@ -22,7 +22,6 @@
     function getFriendsEvents(userObj) {
       return $http.post('/dashboard', userObj)
         .then(function(data) {
-          console.log(data.data)
           return data.data;
         });
     };
