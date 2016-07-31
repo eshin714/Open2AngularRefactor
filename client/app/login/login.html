@@ -16,7 +16,7 @@
 
   <md-input-container>
     <label>Password</label>
-    <input type='password' ng-model='login.password'>
+    <input type='password' ng-model='login.password' ng-enter='login.submit(login.username, login.password)'>
   </md-input-container>
 
   <div style="height:50px; width:300px">

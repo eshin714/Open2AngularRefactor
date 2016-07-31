@@ -192,7 +192,7 @@
             <input type='text' ng-model='dashboard.msg' placeholder="Send Message">
           </md-input-container>
           <div>
-            <md-button class="md-raised" ng-click="dashboard.sendMsg(dashboard.msg)">
+            <md-button class="md-raised" ng-enter="dashboard.sendMsg(dashboard.msg)" ng-click="dashboard.sendMsg(dashboard.msg)">
               SEND
             </md-button>
           </div>
