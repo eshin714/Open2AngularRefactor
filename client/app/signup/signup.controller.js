@@ -33,11 +33,11 @@
                   }
                 })
             } else {
-              vm.errors = "Username Exists!"
+              vm.errors = ["Username Exists!"]
             }
           });
       } else {
-        console.log("error")
+        vm.errors = ["Username Exists!"]
       }
     }
 

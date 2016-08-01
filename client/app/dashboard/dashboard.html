@@ -110,8 +110,8 @@
       <md-content class="w3-card-4 inner-text">
         <md-input-container class="col-md-12">
           <span>
-            <input type='text' ng-model='dashboard.eventName' placeholder="Send out Event!">
-            <md-button class="md-primary md-raised"ng-click="dashboard.addEvent(dashboard.eventName, dashboard.friendsList)">
+            <input type='text' ng-model='dashboard.eventName' placeholder="Send out Event!" ng-enter="dashboard.addEvent(dashboard.eventName, dashboard.friendsList)">
+            <md-button class="md-primary md-raised" ng-click="dashboard.addEvent(dashboard.eventName, dashboard.friendsList)">
             send to friends
             </md-button>
           </span>
@@ -189,10 +189,10 @@
       <div ng-show="dashboard.messageInput" layout layout-align="center" >
         <div layout="row" flex>
           <md-input-container flex class="md-icon-float md-block md-title">
-            <input type='text' ng-model='dashboard.msg' placeholder="Send Message">
+            <input type='text' ng-model='dashboard.msg' placeholder="Send Message" ng-enter="dashboard.sendMsg(dashboard.msg)" >
           </md-input-container>
           <div>
-            <md-button class="md-raised" ng-enter="dashboard.sendMsg(dashboard.msg)" ng-click="dashboard.sendMsg(dashboard.msg)">
+            <md-button class="md-raised" ng-click="dashboard.sendMsg(dashboard.msg)">
               SEND
             </md-button>
           </div>
