@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Lobster');
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 
+@-ms-viewport{
+  width: device-width;
+}
+
 * {
  font-family: Raleway;
 }
